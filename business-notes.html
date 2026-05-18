@@ -805,15 +805,43 @@
       <!-- END WEEK 1 / Government Business Enterprises -->
 
       <!--
-        ════════════════════
-        ADD MORE WEEK 1 TOPICS HERE
-        1. Add a new <button class="topic-tab"> in the tabs div above
-        2. Add a new <div class="topic-panel"> block here
-        ════════════════════
+        ════════════════════════════════
+        ADD MORE LESSON 1 TOPICS HERE
+        1. Add a topic-tab button in the lesson 1 topic-tabs div above
+        2. Add a matching topic-panel block here
+        ════════════════════════════════
       -->
 
+      </div>
+      <!-- END WEEK 1 / LESSON 1 -->
+
+
+      <!-- ════════════════════════════════
+           WEEK 1 / LESSON 2
+           ════════════════════════════════ -->
+      <div class="lesson-group" data-week="1" data-lesson="2">
+
+        <div class="lesson-header">
+          <span class="lesson-eyebrow">Week 1 · Lesson 2</span>
+          <h2>Business Objectives</h2>
+          <p class="lesson-description">Common objectives businesses pursue — from making profit and growing market share to fulfilling social needs and meeting shareholder expectations.</p>
+        </div>
+
+        <!-- ── LESSON 2 TOPIC TABS ──
+             HOW TO ADD A TOPIC: add a tab button here and a matching
+             .topic-panel block below, with the same data-topic value. -->
+        <div class="topic-tabs">
+          <button class="topic-tab active" data-topic="w1-profit">Make a Profit</button>
+          <button class="topic-tab" data-topic="w1-market-share">Market Share</button>
+          <button class="topic-tab" data-topic="w1-efficiency">Efficiency</button>
+          <button class="topic-tab" data-topic="w1-effectiveness">Effectiveness</button>
+          <button class="topic-tab" data-topic="w1-market-need">Market Need</button>
+          <button class="topic-tab" data-topic="w1-social-need">Social Need</button>
+          <button class="topic-tab" data-topic="w1-shareholders">Shareholder Expectations</button>
+        </div>
+
       <!-- ── WEEK 1 / LESSON 2 / TOPIC: Make a Profit ── -->
-      <div class="topic-panel" data-topic="w1-profit">
+      <div class="topic-panel active" data-topic="w1-profit">
 
         <div class="note-card">
           <span class="tag">Business Objective</span>
@@ -964,47 +992,58 @@
       </div>
       <!-- END WEEK 1 / Shareholder Expectations -->
 
+      <!--
+        ════════════════════════════════
+        ADD MORE LESSON 2 TOPICS HERE
+        1. Add a topic-tab button in the lesson 2 topic-tabs div above
+        2. Add a matching topic-panel block here
+        ════════════════════════════════
+      -->
+
+      </div>
+      <!-- END WEEK 1 / LESSON 2 -->
+
     </div>
     <!-- END WEEK 1 PANEL -->
 
 
     <!-- ════════════════════════════════════════════════════════════
          WEEK 2 PANEL
-         Replace the content below when Week 2 notes are available.
+         Add lessons following the same pattern as Week 1.
          ════════════════════════════════════════════════════════════ -->
     <div class="week-panel" data-week="2">
 
-      <div class="week-panel-header">
-        <div class="week-tag">Week 2</div>
-        <h2>Coming Soon</h2>
-        <p class="week-description">
-          Notes for Week 2 haven't been added yet. Upload this file with your Week 2
-          screenshots and ask Claude to populate this section.
-        </p>
-      </div>
+      <!-- ════════════════════════════════
+           WEEK 2 / LESSON 1 — placeholder
+           Replace when notes are available.
+           ════════════════════════════════ -->
+      <div class="lesson-group active" data-week="2" data-lesson="1">
 
-      <!-- ── WEEK 2 TOPIC TABS ── -->
-      <div class="topic-tabs" data-week="2">
-        <button class="topic-tab active" data-topic="w2-placeholder">No notes yet</button>
-      </div>
-
-      <!-- ── WEEK 2 / Placeholder ── -->
-      <div class="topic-panel active" data-topic="w2-placeholder">
-        <div class="note-card">
-          <h3><span class="card-icon">📂</span>No content added yet</h3>
-          <p>
-            Upload this file along with your Week 2 lesson screenshots and ask Claude
-            to add the notes here. The structure is ready to go.
-          </p>
+        <div class="lesson-header">
+          <span class="lesson-eyebrow">Week 2 · Lesson 1</span>
+          <h2>Coming Soon</h2>
+          <p class="lesson-description">Upload this file with your Week 2 screenshots and ask Claude to populate this section.</p>
         </div>
+
+        <div class="topic-tabs">
+          <button class="topic-tab active" data-topic="w2-placeholder">No notes yet</button>
+        </div>
+
+        <div class="topic-panel active" data-topic="w2-placeholder">
+          <div class="note-card">
+            <h3><span class="card-icon">📂</span>No content added yet</h3>
+            <p>Upload this file along with your Week 2 lesson screenshots and ask Claude to add the notes. The structure is ready to go.</p>
+          </div>
+        </div>
+
       </div>
+      <!-- END WEEK 2 / LESSON 1 -->
 
       <!--
-        ════════════════════
-        ADD MORE WEEK 2 TOPICS HERE
-        1. Add a new <button class="topic-tab"> in the tabs div above
-        2. Add a new <div class="topic-panel"> block here
-        ════════════════════
+        ════════════════════════════════════════════════════════════════════
+        ADD NEW LESSONS TO WEEK 2 HERE — copy the lesson-group block above.
+        Remember to also add a matching lesson-btn in the sidebar.
+        ════════════════════════════════════════════════════════════════════
       -->
 
     </div>
@@ -1058,53 +1097,80 @@
 
   <!-- ============================================================
        JAVASCRIPT
-       Handles:
-         1. Week switching (sidebar buttons)
-         2. Topic switching (tab buttons within each week)
+       Three responsibilities:
+         1. Week buttons — expand/collapse the lesson list in sidebar
+         2. Lesson buttons — activate the correct lesson-group in the main panel
+         3. Topic tabs — switch between topics within the active lesson-group
 
-       You should NOT need to modify this section when adding
-       new weeks or topics — the JS reads data attributes
-       dynamically and will pick up new content automatically.
+       You should NOT need to modify this section when adding new
+       weeks, lessons, or topics — it reads data attributes dynamically.
        ============================================================ -->
   <script>
-    /* ── Week switching ── */
+
+    /* ── 1. Week toggle — expand/collapse lesson list ── */
     document.querySelectorAll('.week-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const targetWeek = btn.dataset.week;
-
-        // Deactivate all sidebar buttons and week panels
-        document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.week-panel').forEach(p => p.classList.remove('active'));
-
-        // Activate the clicked week
-        btn.classList.add('active');
-        const panel = document.querySelector(`.week-panel[data-week="${targetWeek}"]`);
-        if (panel) panel.classList.add('active');
-
-        // Reset to the first topic tab in that week
-        const firstTab = panel ? panel.querySelector('.topic-tab') : null;
-        if (firstTab) firstTab.click();
+        const item = btn.closest('.week-item');
+        const isOpen = item.classList.contains('open');
+        // Close all other weeks
+        document.querySelectorAll('.week-item').forEach(w => w.classList.remove('open'));
+        // Toggle this one open
+        if (!isOpen) item.classList.add('open');
       });
     });
 
-    /* ── Topic (tab) switching ── */
+    /* ── 2. Lesson switching ── */
+    document.querySelectorAll('.lesson-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetWeek   = btn.dataset.week;
+        const targetLesson = btn.dataset.lesson;
+
+        // Mark this lesson button active
+        document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Ensure the parent week-item is open
+        const weekItem = btn.closest('.week-item');
+        document.querySelectorAll('.week-item').forEach(w => w.classList.remove('open'));
+        if (weekItem) weekItem.classList.add('open');
+
+        // Show the correct week panel
+        document.querySelectorAll('.week-panel').forEach(p => p.classList.remove('active'));
+        const weekPanel = document.querySelector(`.week-panel[data-week="${targetWeek}"]`);
+        if (weekPanel) weekPanel.classList.add('active');
+
+        // Show the correct lesson group, hide others in this week
+        if (weekPanel) {
+          weekPanel.querySelectorAll('.lesson-group').forEach(g => g.classList.remove('active'));
+          const lessonGroup = weekPanel.querySelector(`.lesson-group[data-lesson="${targetLesson}"]`);
+          if (lessonGroup) {
+            lessonGroup.classList.add('active');
+            // Reset to first topic tab
+            const firstTab = lessonGroup.querySelector('.topic-tab');
+            if (firstTab) firstTab.click();
+          }
+        }
+      });
+    });
+
+    /* ── 3. Topic tab switching — scoped to the lesson-group ── */
     document.querySelectorAll('.topic-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        const targetTopic = tab.dataset.topic;
+        const targetTopic  = tab.dataset.topic;
+        const lessonGroup  = tab.closest('.lesson-group');
+        if (!lessonGroup) return;
 
-        // Find the parent week panel so we only affect tabs within it
-        const weekPanel = tab.closest('.week-panel');
-
-        // Deactivate all tabs and topic panels within this week
-        weekPanel.querySelectorAll('.topic-tab').forEach(t => t.classList.remove('active'));
-        weekPanel.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('active'));
+        // Deactivate all tabs and panels within this lesson group
+        lessonGroup.querySelectorAll('.topic-tab').forEach(t => t.classList.remove('active'));
+        lessonGroup.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('active'));
 
         // Activate the clicked tab and its matching panel
         tab.classList.add('active');
-        const targetPanel = weekPanel.querySelector(`.topic-panel[data-topic="${targetTopic}"]`);
+        const targetPanel = lessonGroup.querySelector(`.topic-panel[data-topic="${targetTopic}"]`);
         if (targetPanel) targetPanel.classList.add('active');
       });
     });
+
   </script>
 
 </body>
