@@ -123,60 +123,6 @@
     #week-list li { margin: 0; }
 
     /* ============================================================
-       WEEK BUTTON
-       Active state = amber left bar + brighter text.
-       ============================================================ */
-    .week-btn {
-      width: 100%;
-      text-align: left;
-      background: transparent;
-      border: none;
-      border-left: 2px solid transparent;
-      cursor: pointer;
-      padding: 9px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-sidebar);
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 400;
-      transition: color var(--transition), border-color var(--transition), background var(--transition);
-    }
-
-    .week-btn:hover {
-      color: var(--text-sidebar-hover);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .week-btn.active {
-      border-left-color: var(--accent);
-      color: var(--text-sidebar-active);
-      background: rgba(255,255,255,0.04);
-      font-weight: 600;
-    }
-
-    .week-btn .week-number {
-      font-family: var(--font-body);
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--text-sidebar);
-      flex-shrink: 0;
-      min-width: 16px;
-      transition: color var(--transition);
-    }
-
-    .week-btn.active .week-number { color: var(--accent); }
-
-    .week-btn .week-label { flex: 1; line-height: 1.3; }
-
-    .week-btn .topic-count {
-      font-size: 0.62rem;
-      opacity: 0.35;
-      font-weight: 300;
-    }
-
-    /* ============================================================
        MAIN CONTENT AREA
        ============================================================ */
     #main {
@@ -186,44 +132,8 @@
       padding: 36px 40px 60px;
     }
 
-    /* ============================================================
-       WEEK PANEL
-       ============================================================ */
     .week-panel { display: none; }
     .week-panel.active { display: block; }
-
-    .week-panel-header {
-      margin-bottom: 22px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .week-panel-header .week-tag {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .week-panel-header h2 {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      line-height: 1.2;
-    }
-
-    .week-panel-header .week-description {
-      margin-top: 7px;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      max-width: 560px;
-      line-height: 1.65;
-    }
 
     /* ============================================================
        TOPIC TABS — underline style, compact
@@ -256,22 +166,6 @@
     .topic-tab.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
-    }
-
-    /* Lesson section label — sits inside the tab row as a non-clickable divider */
-    .topic-tab-section {
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-sidebar);
-      padding: 0 10px 3px;
-      align-self: flex-end;
-      opacity: 0.5;
-      white-space: nowrap;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      pointer-events: none;
     }
 
     /* ============================================================
@@ -445,16 +339,152 @@
     .card-grid .note-card { margin-bottom: 0; }
 
     /* ============================================================
-       RESPONSIVE
+       TWO-LEVEL SIDEBAR — weeks expand to show lessons
        ============================================================ */
+
+    /* Week item wrapper */
+    .week-item { border-bottom: 1px solid var(--border); }
+    .week-item:first-child { border-top: 1px solid var(--border); }
+
+    /* Week button — now a toggle, no active left-bar */
+    .week-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-sidebar);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .week-btn:hover { color: var(--text-sidebar-hover); background: rgba(255,255,255,0.03); }
+    .week-item.open .week-btn { color: var(--text-sidebar-active); }
+
+    .week-btn .week-number {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-sidebar);
+      flex-shrink: 0;
+      min-width: 16px;
+      transition: color var(--transition);
+    }
+
+    .week-item.open .week-btn .week-number { color: var(--accent); }
+    .week-btn .week-label { flex: 1; }
+
+    /* Expand chevron */
+    .expand-icon {
+      font-size: 0.6rem;
+      opacity: 0.4;
+      transition: transform var(--transition), opacity var(--transition);
+      flex-shrink: 0;
+    }
+    .week-item.open .expand-icon { transform: rotate(180deg); opacity: 0.7; }
+
+    /* Lesson list — slides open */
+    .lesson-list {
+      list-style: none;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+      background: rgba(0,0,0,0.15);
+    }
+    .week-item.open .lesson-list { max-height: 400px; }
+
+    /* Lesson button */
+    .lesson-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+      padding: 8px 14px 8px 30px;
+      font-family: var(--font-body);
+      font-size: 0.76rem;
+      font-weight: 400;
+      color: var(--text-sidebar);
+      line-height: 1.35;
+      transition: color var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .lesson-btn:hover { color: var(--text-sidebar-hover); background: rgba(255,255,255,0.03); }
+
+    .lesson-btn.active {
+      border-left-color: var(--accent);
+      color: var(--text-sidebar-active);
+      background: rgba(255,255,255,0.04);
+      font-weight: 600;
+    }
+
+    .lesson-btn .lesson-num {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-sidebar);
+      margin-right: 5px;
+      opacity: 0.6;
+    }
+
+    .lesson-btn.active .lesson-num { color: var(--accent); opacity: 1; }
+
+    /* ============================================================
+       LESSON GROUPS — content wrapper for each lesson
+       ============================================================ */
+    .lesson-group { display: none; }
+    .lesson-group.active { display: block; animation: fadeUp 0.18s ease; }
+
+    .lesson-header {
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lesson-header .lesson-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .lesson-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .lesson-header .lesson-description {
+      margin-top: 6px;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 540px;
+      line-height: 1.65;
+    }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       body { flex-direction: column; overflow: auto; }
       #sidebar { width: 100%; min-width: unset; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
-      #week-list { display: flex; flex-wrap: wrap; padding: 8px; }
-      .week-btn { border-left: none; border-bottom: 2px solid transparent; padding: 7px 12px; }
-      .week-btn.active { border-bottom-color: var(--accent); background: transparent; }
+      #week-list { display: block; padding: 0; }
+      .lesson-btn { padding-left: 24px; }
       #main { height: auto; padding: 20px 16px 48px; }
-      .week-panel-header h2 { font-size: 1.45rem; }
+      .lesson-header h2 { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -463,45 +493,66 @@
 
   <!-- ============================================================
        SIDEBAR
-       HOW TO ADD A NEW WEEK TO THE SIDEBAR:
-         1. Copy one <li> block below.
-         2. Update the week number, label, and topic count.
-         3. Match the data-week attribute (e.g. data-week="3").
-         4. Add the corresponding week panel in the CONTENT section.
+       HOW TO ADD A NEW WEEK:
+         1. Add a <li class="week-item"> block below.
+         2. Give the week-btn a data-week value.
+         3. Add lesson-btn entries under .lesson-list with matching
+            data-week and data-lesson values.
+         4. Add a matching week panel + lesson groups in the CONTENT section.
+       HOW TO ADD A LESSON TO AN EXISTING WEEK:
+         1. Add a <li> with a lesson-btn inside the week's .lesson-list.
+         2. Add a matching .lesson-group in the week panel.
        ============================================================ -->
   <nav id="sidebar">
     <div id="sidebar-header">
       <div class="course-label">Study Notes</div>
       <h1>Business Management</h1>
-      <p>Select a week to get started</p>
+      <p>Select a week to begin</p>
     </div>
 
     <ul id="week-list">
 
-      <!-- ── WEEK 1 sidebar entry ── -->
-      <li>
-        <button class="week-btn active" data-week="1">
+      <!-- ── WEEK 1 ── -->
+      <li class="week-item open">
+        <button class="week-btn" data-week="1">
           <span class="week-number">1</span>
-          <span class="week-label">Businesses & Objectives</span>
-          <span class="topic-count">13 topics</span>
+          <span class="week-label">Week 1</span>
+          <span class="expand-icon">▾</span>
         </button>
+        <ul class="lesson-list">
+          <li>
+            <button class="lesson-btn active" data-week="1" data-lesson="1">
+              <span class="lesson-num">L1</span> Types of Businesses
+            </button>
+          </li>
+          <li>
+            <button class="lesson-btn" data-week="1" data-lesson="2">
+              <span class="lesson-num">L2</span> Business Objectives
+            </button>
+          </li>
+        </ul>
       </li>
 
-      <!-- ── WEEK 2 sidebar entry ── -->
-      <li>
+      <!-- ── WEEK 2 ── -->
+      <li class="week-item">
         <button class="week-btn" data-week="2">
           <span class="week-number">2</span>
           <span class="week-label">Week 2</span>
-          <span class="topic-count">0 topics</span>
+          <span class="expand-icon">▾</span>
         </button>
+        <ul class="lesson-list">
+          <li>
+            <button class="lesson-btn" data-week="2" data-lesson="1">
+              <span class="lesson-num">L1</span> Coming Soon
+            </button>
+          </li>
+        </ul>
       </li>
 
       <!--
         ════════════════════════════════════
-        ADD NEW WEEKS HERE — copy the <li>
-        block above and increment the number.
-        Remember to also add a matching panel
-        in the CONTENT PANELS section below.
+        ADD NEW WEEKS HERE — copy the <li class="week-item"> block above.
+        Remember to also add a matching panel in the CONTENT section below.
         ════════════════════════════════════
       -->
 
@@ -521,41 +572,33 @@
 
     <!-- ════════════════════════════════════════════════════════════
          WEEK 1 PANEL
-         data-week must match the sidebar button's data-week value.
-         week-description: a short summary of the week's themes.
+         Each lesson is a .lesson-group with data-week + data-lesson.
+         Only the active lesson-group is shown at a time.
          ════════════════════════════════════════════════════════════ -->
     <div class="week-panel active" data-week="1">
 
-      <div class="week-panel-header">
-        <div class="week-tag">Week 1</div>
-        <h2>Businesses & Objectives</h2>
-        <p class="week-description">
-          Lesson 1: Types of business structures in Australia. Lesson 2: Common business objectives including profit, market share, efficiency, effectiveness, and social responsibility.
-        </p>
-      </div>
+      <!-- ════════════════════════════════
+           WEEK 1 / LESSON 1
+           ════════════════════════════════ -->
+      <div class="lesson-group active" data-week="1" data-lesson="1">
 
-      <!-- ── WEEK 1 TOPIC TABS ──
-           Each tab corresponds to one .topic-panel below.
-           data-topic must match the matching panel's data-topic.
-           HOW TO ADD A TOPIC: copy a tab button, give it a new
-           data-topic value, and add a matching .topic-panel below. -->
-      <div class="topic-tabs" data-week="1">
-        <span class="topic-tab-section">Lesson 1</span>
-        <button class="topic-tab active" data-topic="w1-sole-trader">Sole Trader</button>
-        <button class="topic-tab" data-topic="w1-partnership">Partnership</button>
-        <button class="topic-tab" data-topic="w1-private-ltd">Private Ltd Co.</button>
-        <button class="topic-tab" data-topic="w1-public-listed">Public Listed Co.</button>
-        <button class="topic-tab" data-topic="w1-social-enterprise">Social Enterprises</button>
-        <button class="topic-tab" data-topic="w1-gbe">GBEs</button>
-        <span class="topic-tab-section">Lesson 2</span>
-        <button class="topic-tab" data-topic="w1-profit">Make a Profit</button>
-        <button class="topic-tab" data-topic="w1-market-share">Market Share</button>
-        <button class="topic-tab" data-topic="w1-efficiency">Efficiency</button>
-        <button class="topic-tab" data-topic="w1-effectiveness">Effectiveness</button>
-        <button class="topic-tab" data-topic="w1-market-need">Market Need</button>
-        <button class="topic-tab" data-topic="w1-social-need">Social Need</button>
-        <button class="topic-tab" data-topic="w1-shareholders">Shareholder Expectations</button>
-      </div>
+        <div class="lesson-header">
+          <span class="lesson-eyebrow">Week 1 · Lesson 1</span>
+          <h2>Types of Businesses</h2>
+          <p class="lesson-description">Business structures available in Australia — ownership, liability, and the advantages and disadvantages of each.</p>
+        </div>
+
+        <!-- ── LESSON 1 TOPIC TABS ──
+             HOW TO ADD A TOPIC: add a tab button here and a matching
+             .topic-panel block below, with the same data-topic value. -->
+        <div class="topic-tabs">
+          <button class="topic-tab active" data-topic="w1-sole-trader">Sole Trader</button>
+          <button class="topic-tab" data-topic="w1-partnership">Partnership</button>
+          <button class="topic-tab" data-topic="w1-private-ltd">Private Ltd Co.</button>
+          <button class="topic-tab" data-topic="w1-public-listed">Public Listed Co.</button>
+          <button class="topic-tab" data-topic="w1-social-enterprise">Social Enterprises</button>
+          <button class="topic-tab" data-topic="w1-gbe">GBEs</button>
+        </div>
 
       <!-- ── WEEK 1 / TOPIC: Sole Trader ── -->
       <div class="topic-panel active" data-topic="w1-sole-trader">
