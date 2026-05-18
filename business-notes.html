@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Management Notes</title>
+
+  <!--
+  ============================================================
+  FONT IMPORTS
+  To change fonts, replace these Google Fonts links and update
+  the CSS variables --font-display and --font-body below.
+  ============================================================
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES — edit these to retheme the entire document
+       ============================================================ */
+    :root {
+      --bg-page:        #F4F2EE;       /* warm stone page background */
+      --bg-sidebar:     #111111;       /* jet black sidebar */
+      --bg-card:        #FFFFFF;       /* white note cards */
+      --accent:         #C8441A;       /* terracotta / burnt orange */
+      --accent-light:   #FAEEE9;       /* soft tint for callouts */
+      --text-primary:   #111111;       /* near-black body text */
+      --text-secondary: #5C5C5C;       /* mid-grey subtext */
+      --text-sidebar:   #777777;       /* muted text on black sidebar */
+      --text-sidebar-active: #FFFFFF;
+      --border:         #DCDAD6;       /* subtle borders */
+      --tag-bg:         #FAEEE9;
+      --tag-text:       #C8441A;
+      --adv-color:      #1F7A4A;       /* green for advantages */
+      --disadv-color:   #B83232;       /* red for disadvantages */
+      --example-color:  #3A5FA0;       /* blue for example boxes */
+      --example-bg:     #EEF2FB;
+      --font-display:   'Archivo Black', sans-serif;
+      --font-body:      'Archivo', sans-serif;
+      --sidebar-width:  240px;
+      --radius:         3px;
+      --transition:     0.16s ease;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ============================================================
+       SIDEBAR NAVIGATION
+       The sidebar lists all weeks. Each week is a button.
+       The active week is highlighted with a left accent bar.
+       ============================================================ */
+    #sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
+      background: var(--bg-sidebar);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    #sidebar-header {
+      padding: 36px 24px 28px;
+      border-bottom: 1px solid #222;
+    }
+
+    #sidebar-header .course-label {
+      font-family: var(--font-body);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    #sidebar-header h1 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    #sidebar-header p {
+      font-size: 0.73rem;
+      color: var(--text-sidebar);
+      margin-top: 8px;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    #week-list {
+      list-style: none;
+      padding: 20px 0;
+      flex: 1;
+    }
+
+    #week-list li { margin-bottom: 2px; }
+
+    /* ============================================================
+       WEEK BUTTON — each week appears here as a nav button.
+       Active state = left terracotta bar + white text.
+       ============================================================ */
+    .week-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+      padding: 12px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text-sidebar);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 400;
+      transition: color var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .week-btn:hover {
+      color: #CCCCCC;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .week-btn.active {
+      border-left-color: var(--accent);
+      color: var(--text-sidebar-active);
+      background: rgba(255,255,255,0.06);
+      font-weight: 500;
+    }
+
+    .week-btn .week-number {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #333;
+      flex-shrink: 0;
+      line-height: 1;
+      transition: color var(--transition);
+      min-width: 20px;
+    }
+
+    .week-btn.active .week-number { color: var(--accent); }
+
+    .week-btn .week-label { flex: 1; line-height: 1.3; }
+
+    .week-btn .topic-count {
+      font-size: 0.65rem;
+      opacity: 0.45;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       MAIN CONTENT AREA
+       ============================================================ */
+    #main {
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 52px 52px 80px;
+      max-width: 900px;
+    }
+
+    /* ============================================================
+       WEEK PANEL — one panel per week. Hidden unless active.
+       ============================================================ */
+    .week-panel { display: none; }
+    .week-panel.active { display: block; }
+
+    .week-panel-header {
+      margin-bottom: 36px;
+      padding-bottom: 28px;
+      border-bottom: 2px solid var(--text-primary);
+    }
+
+    .week-panel-header .week-tag {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .week-panel-header h2 {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--text-primary);
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .week-panel-header .week-description {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       TOPIC TABS — underline-style tabs to switch between topics
+       within a single week. Add new topics by following the
+       pattern in each week's section below.
+       ============================================================ */
+    .topic-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 32px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .topic-tab {
+      background: transparent;
+      border: none;
+      border-bottom: 2.5px solid transparent;
+      margin-bottom: -1.5px;
+      padding: 10px 18px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color var(--transition), border-color var(--transition);
+      white-space: nowrap;
+    }
+
+    .topic-tab:hover { color: var(--text-primary); }
+
+    .topic-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       TOPIC PANEL — one panel per topic within a week.
+       Hidden unless active via tab selection.
+       ============================================================ */
+    .topic-panel { display: none; }
+    .topic-panel.active { display: block; animation: fadeIn 0.2s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       NOTE CARDS — the primary content containers.
+       Flat design: thick left border, no shadow, sharp corners.
+       ============================================================ */
+    .note-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text-primary);
+      border-radius: var(--radius);
+      padding: 26px 28px;
+      margin-bottom: 18px;
+      transition: border-left-color var(--transition);
+    }
+
+    .note-card:hover { border-left-color: var(--accent); }
+
+    .note-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .note-card h3 .card-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .note-card p {
+      font-size: 0.91rem;
+      line-height: 1.78;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .note-card p:last-child { margin-bottom: 0; }
+
+    /* Bullet list inside a card */
+    .note-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0;
+    }
+
+    .note-card ul li {
+      font-size: 0.91rem;
+      line-height: 1.72;
+      color: var(--text-secondary);
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+
+    .note-card ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.75rem;
+      top: 1px;
+    }
+
+    /* Key term / definition style */
+    .note-card .key-term {
+      display: inline;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Callout box — use for important definitions or takeaways */
+    .callout {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-size: 0.88rem;
+      line-height: 1.68;
+      color: var(--text-primary);
+    }
+
+    /* Tags / labels on cards */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-right: 6px;
+      margin-bottom: 12px;
+    }
+
+    /* ============================================================
+       ADVANTAGES / DISADVANTAGES GRID
+       A two-column layout specifically for adv/disadv note cards.
+       Each card gets a coloured header bar via .adv-card / .disadv-card.
+       ============================================================ */
+    .adv-disadv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 700px) {
+      .adv-disadv-grid { grid-template-columns: 1fr; }
+    }
+
+    .adv-disadv-grid .note-card {
+      margin-bottom: 0;
+      padding: 0;
+      overflow: hidden;
+      border-left-width: 4px;
+    }
+
+    .adv-disadv-grid .note-card.adv-card    { border-left-color: var(--adv-color); }
+    .adv-disadv-grid .note-card.disadv-card { border-left-color: var(--disadv-color); }
+
+    .adv-disadv-grid .note-card .card-col-header {
+      padding: 10px 18px;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .adv-disadv-grid .note-card.adv-card    .card-col-header { background: var(--adv-color); }
+    .adv-disadv-grid .note-card.disadv-card .card-col-header { background: var(--disadv-color); }
+
+    .adv-disadv-grid .note-card ul { padding: 14px 18px 18px; }
+    .adv-disadv-grid .note-card ul li { margin-bottom: 8px; }
+
+    .adv-disadv-grid .note-card.adv-card    ul li::before { color: var(--adv-color); }
+    .adv-disadv-grid .note-card.disadv-card ul li::before { color: var(--disadv-color); }
+
+    /* Example highlight — used for real-world examples */
+    .example-box {
+      background: var(--example-bg);
+      border-left: 4px solid var(--example-color);
+      padding: 14px 18px;
+      margin: 14px 0 0;
+      font-size: 0.88rem;
+      line-height: 1.68;
+      color: var(--text-primary);
+    }
+
+    .example-box strong { color: var(--example-color); }
+
+    /* ============================================================
+       GRID LAYOUT — use .card-grid to place two cards side by side
+       ============================================================ */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .card-grid .note-card { margin-bottom: 0; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      body { flex-direction: column; overflow: auto; }
+      #sidebar {
+        width: 100%; min-width: unset;
+        height: auto; position: relative;
+      }
+      #week-list { display: flex; flex-wrap: wrap; padding: 10px 16px; }
+      #week-list li { margin: 2px; }
+      .week-btn { border-left: none; border-bottom: 3px solid transparent; padding: 8px 14px; }
+      .week-btn.active { border-bottom-color: var(--accent); border-left-color: transparent; }
+      #main { height: auto; padding: 28px 20px 60px; max-width: 100%; }
+      .week-panel-header h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       SIDEBAR
+       HOW TO ADD A NEW WEEK TO THE SIDEBAR:
+         1. Copy one <li> block below.
+         2. Update the week number, label, and topic count.
+         3. Match the data-week attribute (e.g. data-week="3").
+         4. Add the corresponding week panel in the CONTENT section.
+       ============================================================ -->
+  <nav id="sidebar">
+    <div id="sidebar-header">
+      <div class="course-label">Study Notes</div>
+      <h1>Business Management</h1>
+      <p>Select a week to get started</p>
+    </div>
+
+    <ul id="week-list">
+
+      <!-- ── WEEK 1 sidebar entry ── -->
+      <li>
+        <button class="week-btn active" data-week="1">
+          <span class="week-number">1</span>
+          <span class="week-label">Types of Businesses</span>
+          <span class="topic-count">6 topics</span>
+        </button>
+      </li>
+
+      <!-- ── WEEK 2 sidebar entry ── -->
+      <li>
+        <button class="week-btn" data-week="2">
+          <span class="week-number">2</span>
+          <span class="week-label">Week 2</span>
+          <span class="topic-count">0 topics</span>
+        </button>
+      </li>
+
+      <!--
+        ════════════════════════════════════
+        ADD NEW WEEKS HERE — copy the <li>
+        block above and increment the number.
+        Remember to also add a matching panel
+        in the CONTENT PANELS section below.
+        ════════════════════════════════════
+      -->
+
+    </ul>
+  </nav>
+  <!-- END SIDEBAR -->
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       Each .week-panel corresponds to one week.
+       Only the panel whose data-week matches the active sidebar
+       button is shown at a time (controlled by JS below).
+       ============================================================ -->
+  <main id="main">
+
+
+    <!-- ════════════════════════════════════════════════════════════
+         WEEK 1 PANEL
+         data-week must match the sidebar button's data-week value.
+         week-description: a short summary of the week's themes.
+         ════════════════════════════════════════════════════════════ -->
+    <div class="week-panel active" data-week="1">
+
+      <div class="week-panel-header">
+        <div class="week-tag">Week 1</div>
+        <h2>Types of Businesses</h2>
+        <p class="week-description">
+          An overview of the main business structures available in Australia, including their
+          ownership, liability, and the advantages and disadvantages of each.
+        </p>
+      </div>
+
+      <!-- ── WEEK 1 TOPIC TABS ──
+           Each tab corresponds to one .topic-panel below.
+           data-topic must match the matching panel's data-topic.
+           HOW TO ADD A TOPIC: copy a tab button, give it a new
+           data-topic value, and add a matching .topic-panel below. -->
+      <div class="topic-tabs" data-week="1">
+        <button class="topic-tab active" data-topic="w1-sole-trader">Sole Trader</button>
+        <button class="topic-tab" data-topic="w1-partnership">Partnership</button>
+        <button class="topic-tab" data-topic="w1-private-ltd">Private Limited Company</button>
+        <button class="topic-tab" data-topic="w1-public-listed">Public Listed Company</button>
+        <button class="topic-tab" data-topic="w1-social-enterprise">Social Enterprises</button>
+        <button class="topic-tab" data-topic="w1-gbe">Govt. Business Enterprises</button>
+      </div>
+
+      <!-- ── WEEK 1 / TOPIC: Sole Trader ── -->
+      <div class="topic-panel active" data-topic="w1-sole-trader">
+
+        <div class="note-card">
+          <span class="tag">Business Structure</span>
+          <h3><span class="card-icon">🧑</span>Sole Trader</h3>
+          <p>
+            A sole trader is a business that is <strong>owned and operated by one person</strong>.
+            The owner generally makes most of the decisions about running the business, but may have employees.
+          </p>
+          <p>
+            The <strong>liability is unlimited</strong>. This means that the owner can be held
+            personally accountable for a business's debt.
+          </p>
+          <div class="example-box">
+            <strong>Example:</strong> Susan is a sole trader and has invested $20,000 in her café.
+            The business accrues debts of $50,000. If the business is unable to repay the debt,
+            Susan's personal assets (like her car or her house) can be seized.
+          </div>
+        </div>
+
+        <div class="adv-disadv-grid">
+          <div class="note-card adv-card">
+            <div class="card-col-header">✔ Advantages</div>
+            <ul>
+              <li>Easy and inexpensive to set up.</li>
+              <li>Few legal and tax formalities.</li>
+              <li>The owner has full control over the assets and the business decisions.</li>
+              <li>It is not necessary to disclose the profits to the public.</li>
+              <li>It is relatively easy to change the structure when the business grows, and it is also easy to close the business.</li>
+            </ul>
+          </div>
+          <div class="note-card disadv-card">
+            <div class="card-col-header">✘ Disadvantages</div>
+            <ul>
+              <li>The sole trader is fully liable for the business debts and risks losing personal assets (home, vehicles, etc.), if the business cannot repay the debts.</li>
+              <li>Heavy reliance on the owner, resulting in long work hours.</li>
+              <li>It is usually limited as to how long the owner can stay away from the business (i.e. fewer holidays).</li>
+              <li>If the sole trader becomes sick or has an accident, the business may stop operating.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Sole Trader -->
+
+      <!-- ── WEEK 1 / TOPIC: Partnership ── -->
+      <div class="topic-panel" data-topic="w1-partnership">
+
+        <div class="note-card">
+          <span class="tag">Business Structure</span>
+          <h3><span class="card-icon">🤝</span>Partnership</h3>
+          <p>
+            Partnerships are businesses that are <strong>owned by between 2 and 20 people</strong>.
+          </p>
+          <p>
+            The <strong>liability is unlimited</strong>. This means that the owners can be held
+            personally accountable for a business's debt.
+          </p>
+        </div>
+
+        <div class="adv-disadv-grid">
+          <div class="note-card adv-card">
+            <div class="card-col-header">✔ Advantages</div>
+            <ul>
+              <li>A partnership is relatively easy and inexpensive to set up.</li>
+              <li>It combines the resources and expertise of a number of people.</li>
+              <li>It allows for greater flexibility in holidays and sick leave (compared to a sole trader structure).</li>
+              <li>Like a sole trader, it is not necessary to disclose profits to the public.</li>
+            </ul>
+          </div>
+          <div class="note-card disadv-card">
+            <div class="card-col-header">✘ Disadvantages</div>
+            <ul>
+              <li>The business is not a separate entity, and all partners are personally responsible for the business debts (unlimited liability). Each partner is individually liable for debts incurred by the other partners.</li>
+              <li>Personal differences between the owners may interfere with business decisions.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Partnership -->
+
+      <!-- ── WEEK 1 / TOPIC: Private Limited Company ── -->
+      <div class="topic-panel" data-topic="w1-private-ltd">
+
+        <div class="note-card">
+          <span class="tag">Business Structure</span>
+          <h3><span class="card-icon">🏛️</span>Private Limited Company</h3>
+          <p>
+            A company is a <strong>separate legal entity</strong>. This means that the company
+            has the same rights as a natural person and can incur debt, sue and be sued.
+          </p>
+          <p>
+            A private limited company is a company with <strong>1 to 50 shareholders</strong>,
+            with shares being sold privately — i.e. it is <strong>not listed on a stock exchange</strong>.
+          </p>
+          <div class="callout">
+            The <strong>liability is limited</strong>: shareholders can only lose the value of
+            their shares and are not liable for the company's debts.
+          </div>
+          <div class="example-box">
+            <strong>Examples:</strong> Linfox, Wittner Shoes and Sportsgirl.
+          </div>
+        </div>
+
+        <div class="adv-disadv-grid">
+          <div class="note-card adv-card">
+            <div class="card-col-header">✔ Advantages</div>
+            <ul>
+              <li>The limited liability is an advantage as the shareholders can only lose the value of their shares.</li>
+              <li>This structure has tax advantages compared to sole traders and partnerships.</li>
+              <li>The business is a separate legal entity, which means that it can exist beyond the life of its shareholders (e.g. retirement or death).</li>
+            </ul>
+          </div>
+          <div class="note-card disadv-card">
+            <div class="card-col-header">✘ Disadvantages</div>
+            <ul>
+              <li>It is a more complex structure with higher set-up and administrative costs.</li>
+              <li>Companies are more regulated than sole traders or partnerships.</li>
+              <li>A private limited company cannot raise money from the general public through share issues, as the shares are only being sold privately.</li>
+              <li>Suppliers and lenders may be reluctant to enter into contracts or lend money unless directors or shareholders provide personal guarantees.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Private Limited Company -->
+
+      <!-- ── WEEK 1 / TOPIC: Public Listed Company ── -->
+      <div class="topic-panel" data-topic="w1-public-listed">
+
+        <div class="note-card">
+          <span class="tag">Business Structure</span>
+          <h3><span class="card-icon">📈</span>Public Listed Company</h3>
+          <p>
+            A company is a <strong>separate legal entity</strong>. This means that the company
+            has the same rights as a natural person and can incur debt, sue and be sued.
+          </p>
+          <p>
+            A public listed company offers <strong>shares for sale to the public</strong> via the
+            Australian Stock Exchange (ASX). A public listed company is usually formed to raise or
+            borrow public money.
+          </p>
+          <div class="callout">
+            The <strong>number of shareholders</strong> is <strong>not restricted</strong>.
+            The <strong>liability is limited</strong>: shareholders can only lose the value of
+            their shares and are not liable for the company's debts.
+          </div>
+          <div class="example-box">
+            <strong>Examples:</strong> Telstra, Commonwealth Bank of Australia (CBA) and Wesfarmers.
+          </div>
+        </div>
+
+        <div class="adv-disadv-grid">
+          <div class="note-card adv-card">
+            <div class="card-col-header">✔ Advantages</div>
+            <ul>
+              <li>The limited liability is an advantage as the shareholders can only lose the value of their shares.</li>
+              <li>When businesses go public they typically sell large blocks of new shares, creating a large influx of capital at one time without incurring debt.</li>
+              <li>It is possible to raise additional funds by selling more shares.</li>
+              <li>Personal guarantees of the directors are not usually required for borrowings.</li>
+              <li>The market develops greater awareness of the company and its products and services through the listing on the ASX.</li>
+            </ul>
+          </div>
+          <div class="note-card disadv-card">
+            <div class="card-col-header">✘ Disadvantages</div>
+            <ul>
+              <li>It is a complex structure with high set-up and administrative costs.</li>
+              <li>It is necessary to consider shareholder interests when running the company.</li>
+              <li>Disclosure and reporting requirements apply, e.g. financial reports.</li>
+              <li>The price of the shares may be affected by market conditions no matter how well the company is run.</li>
+              <li>The original owners potentially lose control as the public listed company gets run by the board of directors and managers, meaning disagreements are possible.</li>
+              <li>Managers might focus on short-term share prices instead of long-term success of the business.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Public Listed Company -->
+
+      <!-- ── WEEK 1 / TOPIC: Social Enterprises ── -->
+      <div class="topic-panel" data-topic="w1-social-enterprise">
+
+        <div class="note-card">
+          <span class="tag">Business Type</span>
+          <h3><span class="card-icon">🌿</span>Social Enterprises</h3>
+          <p>
+            Social enterprises are businesses that exist primarily to <strong>benefit the public
+            and the community</strong>, rather than their shareholders and owners. They are led by
+            an economic, social, cultural or environmental mission consistent with a public or
+            community benefit.
+          </p>
+          <p>
+            Social enterprises sell goods and services to reinvest a substantial part of their
+            profit to fulfil their mission.
+          </p>
+          <div class="callout">
+            Social enterprise is <strong>not a business structure</strong> like sole trader — the
+            business structure depends on what will best advance the social mission. Sole trader,
+            partnership and other options are all possible. The liability will depend on the chosen
+            business structure.
+          </div>
+          <p>
+            As this is not a legal business structure, advantages and disadvantages will not be
+            considered in this course.
+          </p>
+          <div class="example-box">
+            <strong>Examples:</strong> The Big Issue, CERES Fair Food and Good Cycles.
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Social Enterprises -->
+
+      <!-- ── WEEK 1 / TOPIC: Government Business Enterprises ── -->
+      <div class="topic-panel" data-topic="w1-gbe">
+
+        <div class="note-card">
+          <span class="tag">Business Type</span>
+          <h3><span class="card-icon">🏦</span>Government Business Enterprises (GBEs)</h3>
+          <p>
+            A government business enterprise (GBE) is a business that is <strong>government
+            owned</strong>. GBEs occupy strategic positions in the economic and social life of
+            Australia: they provide a range of services, including communications, transport and
+            defence (which might not be provided via the public market).
+          </p>
+          <div class="callout">
+            Their objectives are to <strong>provide a service or product to the public</strong> and
+            <strong>to make a profit</strong>. GBEs seek to run profitably by controlling costs and
+            selling their goods and services at a price to cover costs.
+          </div>
+          <p>
+            As this is not a business structure that an entrepreneur can choose, advantages and
+            disadvantages will not be considered in this course.
+          </p>
+          <div class="example-box">
+            <strong>Examples:</strong> Australia Post, National Broadband Network (NBN) and
+            Defence Housing Australia.
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Government Business Enterprises -->
+
+      <!--
+        ════════════════════
+        ADD MORE WEEK 1 TOPICS HERE
+        1. Add a new <button class="topic-tab"> in the tabs div above
+        2. Add a new <div class="topic-panel"> block here
+        ════════════════════
+      -->
+
+    </div>
+    <!-- END WEEK 1 PANEL -->
+
+
+    <!-- ════════════════════════════════════════════════════════════
+         WEEK 2 PANEL
+         Replace the content below when Week 2 notes are available.
+         ════════════════════════════════════════════════════════════ -->
+    <div class="week-panel" data-week="2">
+
+      <div class="week-panel-header">
+        <div class="week-tag">Week 2</div>
+        <h2>Coming Soon</h2>
+        <p class="week-description">
+          Notes for Week 2 haven't been added yet. Upload this file with your Week 2
+          screenshots and ask Claude to populate this section.
+        </p>
+      </div>
+
+      <!-- ── WEEK 2 TOPIC TABS ── -->
+      <div class="topic-tabs" data-week="2">
+        <button class="topic-tab active" data-topic="w2-placeholder">No notes yet</button>
+      </div>
+
+      <!-- ── WEEK 2 / Placeholder ── -->
+      <div class="topic-panel active" data-topic="w2-placeholder">
+        <div class="note-card">
+          <h3><span class="card-icon">📂</span>No content added yet</h3>
+          <p>
+            Upload this file along with your Week 2 lesson screenshots and ask Claude
+            to add the notes here. The structure is ready to go.
+          </p>
+        </div>
+      </div>
+
+      <!--
+        ════════════════════
+        ADD MORE WEEK 2 TOPICS HERE
+        1. Add a new <button class="topic-tab"> in the tabs div above
+        2. Add a new <div class="topic-panel"> block here
+        ════════════════════
+      -->
+
+    </div>
+    <!-- END WEEK 2 PANEL -->
+
+
+    <!--
+      ════════════════════════════════════════════════════════════════════
+      ADD NEW WEEKS HERE
+      ════════════════════════════════════════════════════════════════════
+
+      To add Week 3 (or any future week), paste the following template
+      and fill in the content. Remember to also add the sidebar entry above.
+
+      <div class="week-panel" data-week="3">
+        <div class="week-panel-header">
+          <div class="week-tag">Week 3</div>
+          <h2>Week Title Here</h2>
+          <p class="week-description">
+            Brief description of what was covered this week.
+          </p>
+        </div>
+
+        <div class="topic-tabs" data-week="3">
+          <button class="topic-tab active" data-topic="w3-topic1">Topic One</button>
+          <button class="topic-tab" data-topic="w3-topic2">Topic Two</button>
+        </div>
+
+        <div class="topic-panel active" data-topic="w3-topic1">
+          <div class="note-card">
+            <span class="tag">Tag here</span>
+            <h3><span class="card-icon">📌</span>Card Title</h3>
+            <p>Card content goes here.</p>
+          </div>
+        </div>
+
+        <div class="topic-panel" data-topic="w3-topic2">
+          <div class="note-card">
+            <h3><span class="card-icon">📌</span>Card Title</h3>
+            <p>Card content goes here.</p>
+          </div>
+        </div>
+      </div>
+
+      ════════════════════════════════════════════════════════════════════
+    -->
+
+  </main>
+  <!-- END MAIN CONTENT -->
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+       Handles:
+         1. Week switching (sidebar buttons)
+         2. Topic switching (tab buttons within each week)
+
+       You should NOT need to modify this section when adding
+       new weeks or topics — the JS reads data attributes
+       dynamically and will pick up new content automatically.
+       ============================================================ -->
+  <script>
+    /* ── Week switching ── */
+    document.querySelectorAll('.week-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetWeek = btn.dataset.week;
+
+        // Deactivate all sidebar buttons and week panels
+        document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.week-panel').forEach(p => p.classList.remove('active'));
+
+        // Activate the clicked week
+        btn.classList.add('active');
+        const panel = document.querySelector(`.week-panel[data-week="${targetWeek}"]`);
+        if (panel) panel.classList.add('active');
+
+        // Reset to the first topic tab in that week
+        const firstTab = panel ? panel.querySelector('.topic-tab') : null;
+        if (firstTab) firstTab.click();
+      });
+    });
+
+    /* ── Topic (tab) switching ── */
+    document.querySelectorAll('.topic-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTopic = tab.dataset.topic;
+
+        // Find the parent week panel so we only affect tabs within it
+        const weekPanel = tab.closest('.week-panel');
+
+        // Deactivate all tabs and topic panels within this week
+        weekPanel.querySelectorAll('.topic-tab').forEach(t => t.classList.remove('active'));
+        weekPanel.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('active'));
+
+        // Activate the clicked tab and its matching panel
+        tab.classList.add('active');
+        const targetPanel = weekPanel.querySelector(`.topic-panel[data-topic="${targetTopic}"]`);
+        if (targetPanel) targetPanel.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
