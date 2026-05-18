@@ -14,34 +14,38 @@
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ============================================================
        CSS VARIABLES — edit these to retheme the entire document
        ============================================================ */
     :root {
-      --bg-page:        #F4F2EE;       /* warm stone page background */
-      --bg-sidebar:     #111111;       /* jet black sidebar */
-      --bg-card:        #FFFFFF;       /* white note cards */
-      --accent:         #C8441A;       /* terracotta / burnt orange */
-      --accent-light:   #FAEEE9;       /* soft tint for callouts */
-      --text-primary:   #111111;       /* near-black body text */
-      --text-secondary: #5C5C5C;       /* mid-grey subtext */
-      --text-sidebar:   #777777;       /* muted text on black sidebar */
+      --bg-page:        #F6F4F0;       /* warm linen page background */
+      --bg-sidebar:     #3D4F6B;       /* muted denim blue sidebar */
+      --bg-sidebar-top: #344460;       /* slightly deeper for header */
+      --bg-card:        #FFFFFF;
+      --accent:         #C47F6E;       /* dusty terracotta-rose */
+      --accent-light:   #F7EDEA;
+      --accent-muted:   #D9A899;
+      --text-primary:   #1F2937;
+      --text-secondary: #6B7280;
+      --text-sidebar:   #BAC6D8;
       --text-sidebar-active: #FFFFFF;
-      --border:         #DCDAD6;       /* subtle borders */
-      --tag-bg:         #FAEEE9;
-      --tag-text:       #C8441A;
-      --adv-color:      #1F7A4A;       /* green for advantages */
-      --disadv-color:   #B83232;       /* red for disadvantages */
-      --example-color:  #3A5FA0;       /* blue for example boxes */
-      --example-bg:     #EEF2FB;
-      --font-display:   'Archivo Black', sans-serif;
-      --font-body:      'Archivo', sans-serif;
-      --sidebar-width:  240px;
-      --radius:         3px;
-      --transition:     0.16s ease;
+      --border:         #E5E1DB;
+      --tag-bg:         #F7EDEA;
+      --tag-text:       #A8614F;
+      --adv-color:      #3B7D5C;
+      --disadv-color:   #A84848;
+      --example-color:  #4A72A8;
+      --example-bg:     #EDF2FA;
+      --font-display:   'Lora', Georgia, serif;
+      --font-body:      'Nunito Sans', sans-serif;
+      --sidebar-width:  252px;
+      --radius:         12px;
+      --shadow-sm:      0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.05);
+      --shadow-md:      0 2px 8px rgba(0,0,0,0.07), 0 8px 24px rgba(0,0,0,0.06);
+      --transition:     0.2s ease;
     }
 
     /* ============================================================
@@ -61,7 +65,7 @@
     /* ============================================================
        SIDEBAR NAVIGATION
        The sidebar lists all weeks. Each week is a button.
-       The active week is highlighted with a left accent bar.
+       Active week gets a soft pill highlight.
        ============================================================ */
     #sidebar {
       width: var(--sidebar-width);
@@ -77,100 +81,112 @@
     }
 
     #sidebar-header {
-      padding: 36px 24px 28px;
-      border-bottom: 1px solid #222;
+      padding: 34px 22px 24px;
+      background: var(--bg-sidebar-top);
     }
 
     #sidebar-header .course-label {
       font-family: var(--font-body);
       font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
+      font-weight: 700;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
+      color: var(--accent-muted);
+      margin-bottom: 8px;
     }
 
     #sidebar-header h1 {
       font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 900;
+      font-size: 1.35rem;
+      font-weight: 600;
+      font-style: italic;
       color: #FFFFFF;
-      line-height: 1.15;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
+      line-height: 1.25;
     }
 
     #sidebar-header p {
-      font-size: 0.73rem;
+      font-size: 0.75rem;
       color: var(--text-sidebar);
-      margin-top: 8px;
+      margin-top: 7px;
       font-weight: 300;
       line-height: 1.5;
+      opacity: 0.8;
     }
 
     #week-list {
       list-style: none;
-      padding: 20px 0;
+      padding: 14px 10px;
       flex: 1;
     }
 
-    #week-list li { margin-bottom: 2px; }
+    #week-list li { margin-bottom: 3px; }
 
     /* ============================================================
        WEEK BUTTON — each week appears here as a nav button.
-       Active state = left terracotta bar + white text.
+       Active state = soft white pill with accent-coloured number.
        ============================================================ */
     .week-btn {
       width: 100%;
       text-align: left;
       background: transparent;
       border: none;
-      border-left: 3px solid transparent;
       cursor: pointer;
-      padding: 12px 22px;
+      border-radius: 8px;
+      padding: 10px 13px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 11px;
       color: var(--text-sidebar);
       font-family: var(--font-body);
-      font-size: 0.82rem;
+      font-size: 0.83rem;
       font-weight: 400;
-      transition: color var(--transition), border-color var(--transition), background var(--transition);
+      transition: background var(--transition), color var(--transition);
     }
 
     .week-btn:hover {
-      color: #CCCCCC;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.09);
+      color: #fff;
     }
 
     .week-btn.active {
-      border-left-color: var(--accent);
+      background: rgba(255,255,255,0.14);
       color: var(--text-sidebar-active);
-      background: rgba(255,255,255,0.06);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .week-btn .week-number {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: #333;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      font-size: 0.75rem;
+      font-weight: 700;
       flex-shrink: 0;
-      line-height: 1;
-      transition: color var(--transition);
-      min-width: 20px;
+      transition: background var(--transition), color var(--transition);
+      color: var(--text-sidebar);
     }
 
-    .week-btn.active .week-number { color: var(--accent); }
+    .week-btn.active .week-number {
+      background: var(--accent);
+      color: #fff;
+    }
 
     .week-btn .week-label { flex: 1; line-height: 1.3; }
 
     .week-btn .topic-count {
-      font-size: 0.65rem;
+      font-size: 0.66rem;
       opacity: 0.45;
-      font-weight: 400;
-      white-space: nowrap;
+      font-weight: 300;
+    }
+
+    /* Divider line between sidebar sections */
+    .sidebar-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 8px 14px;
     }
 
     /* ============================================================
@@ -180,8 +196,7 @@
       flex: 1;
       height: 100vh;
       overflow-y: auto;
-      padding: 52px 52px 80px;
-      max-width: 900px;
+      padding: 50px 52px 80px;
     }
 
     /* ============================================================
@@ -191,34 +206,31 @@
     .week-panel.active { display: block; }
 
     .week-panel-header {
-      margin-bottom: 36px;
-      padding-bottom: 28px;
-      border-bottom: 2px solid var(--text-primary);
+      margin-bottom: 30px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
     }
 
     .week-panel-header .week-tag {
       display: inline-block;
-      font-family: var(--font-body);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .week-panel-header h2 {
       font-family: var(--font-display);
-      font-size: 2.8rem;
-      font-weight: 900;
+      font-size: 2.1rem;
+      font-weight: 600;
       color: var(--text-primary);
-      line-height: 1.05;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
+      line-height: 1.2;
     }
 
     .week-panel-header .week-description {
-      margin-top: 14px;
+      margin-top: 9px;
       font-size: 0.9rem;
       color: var(--text-secondary);
       font-weight: 300;
@@ -227,39 +239,41 @@
     }
 
     /* ============================================================
-       TOPIC TABS — underline-style tabs to switch between topics
+       TOPIC TABS — soft pill tabs to switch between topics
        within a single week. Add new topics by following the
        pattern in each week's section below.
        ============================================================ */
     .topic-tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 0;
-      margin-bottom: 32px;
-      border-bottom: 1.5px solid var(--border);
+      gap: 7px;
+      margin-bottom: 26px;
     }
 
     .topic-tab {
-      background: transparent;
-      border: none;
-      border-bottom: 2.5px solid transparent;
-      margin-bottom: -1.5px;
-      padding: 10px 18px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 16px;
       font-family: var(--font-body);
       font-size: 0.8rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
-      transition: color var(--transition), border-color var(--transition);
-      white-space: nowrap;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
     }
 
-    .topic-tab:hover { color: var(--text-primary); }
+    .topic-tab:hover {
+      border-color: var(--accent-muted);
+      color: var(--accent);
+    }
 
     .topic-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      font-weight: 600;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(196,127,110,0.35);
     }
 
     /* ============================================================
@@ -267,53 +281,53 @@
        Hidden unless active via tab selection.
        ============================================================ */
     .topic-panel { display: none; }
-    .topic-panel.active { display: block; animation: fadeIn 0.2s ease; }
+    .topic-panel.active { display: block; animation: fadeUp 0.22s ease; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(7px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ============================================================
-       NOTE CARDS — the primary content containers.
-       Flat design: thick left border, no shadow, sharp corners.
+       NOTE CARDS — the primary content containers
        ============================================================ */
     .note-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--text-primary);
       border-radius: var(--radius);
       padding: 26px 28px;
       margin-bottom: 18px;
-      transition: border-left-color var(--transition);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
     }
 
-    .note-card:hover { border-left-color: var(--accent); }
+    .note-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
 
     .note-card h3 {
       font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 900;
+      font-size: 1.2rem;
+      font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
+      margin-bottom: 13px;
       display: flex;
       align-items: center;
       gap: 10px;
+      line-height: 1.3;
     }
 
     .note-card h3 .card-icon {
-      font-size: 1rem;
+      font-size: 1.1rem;
       flex-shrink: 0;
-      line-height: 1;
     }
 
     .note-card p {
       font-size: 0.91rem;
       line-height: 1.78;
       color: var(--text-secondary);
-      margin-bottom: 12px;
+      margin-bottom: 11px;
     }
 
     .note-card p:last-child { margin-bottom: 0; }
@@ -329,34 +343,35 @@
       font-size: 0.91rem;
       line-height: 1.72;
       color: var(--text-secondary);
-      padding-left: 16px;
+      padding-left: 18px;
       position: relative;
       margin-bottom: 6px;
     }
 
     .note-card ul li::before {
-      content: '—';
+      content: '';
       position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 0.75rem;
-      top: 1px;
+      left: 2px;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-muted);
     }
 
     /* Key term / definition style */
     .note-card .key-term {
-      display: inline;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-primary);
     }
 
     /* Callout box — use for important definitions or takeaways */
     .callout {
       background: var(--accent-light);
-      border-left: 4px solid var(--accent);
-      padding: 14px 18px;
-      margin: 14px 0;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 13px 17px;
+      margin: 13px 0;
       font-size: 0.88rem;
       line-height: 1.68;
       color: var(--text-primary);
@@ -365,18 +380,16 @@
     /* Tags / labels on cards */
     .tag {
       display: inline-block;
-      font-family: var(--font-body);
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 2px 8px;
-      border-radius: 2px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 3px 9px;
+      border-radius: 6px;
       margin-right: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 11px;
     }
 
     /* ============================================================
@@ -399,37 +412,37 @@
       margin-bottom: 0;
       padding: 0;
       overflow: hidden;
-      border-left-width: 4px;
     }
 
-    .adv-disadv-grid .note-card.adv-card    { border-left-color: var(--adv-color); }
-    .adv-disadv-grid .note-card.disadv-card { border-left-color: var(--disadv-color); }
+    .adv-disadv-grid .note-card.adv-card    { border-top: 3px solid var(--adv-color); }
+    .adv-disadv-grid .note-card.disadv-card { border-top: 3px solid var(--disadv-color); }
 
     .adv-disadv-grid .note-card .card-col-header {
-      padding: 10px 18px;
+      padding: 11px 18px;
       font-family: var(--font-body);
       font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #fff;
+      border-bottom: 1px solid var(--border);
     }
 
-    .adv-disadv-grid .note-card.adv-card    .card-col-header { background: var(--adv-color); }
-    .adv-disadv-grid .note-card.disadv-card .card-col-header { background: var(--disadv-color); }
+    .adv-disadv-grid .note-card.adv-card    .card-col-header { color: var(--adv-color); }
+    .adv-disadv-grid .note-card.disadv-card .card-col-header { color: var(--disadv-color); }
 
     .adv-disadv-grid .note-card ul { padding: 14px 18px 18px; }
     .adv-disadv-grid .note-card ul li { margin-bottom: 8px; }
 
-    .adv-disadv-grid .note-card.adv-card    ul li::before { color: var(--adv-color); }
-    .adv-disadv-grid .note-card.disadv-card ul li::before { color: var(--disadv-color); }
+    .adv-disadv-grid .note-card.adv-card    ul li::before { background: var(--adv-color); }
+    .adv-disadv-grid .note-card.disadv-card ul li::before { background: var(--disadv-color); }
 
     /* Example highlight — used for real-world examples */
     .example-box {
       background: var(--example-bg);
-      border-left: 4px solid var(--example-color);
-      padding: 14px 18px;
-      margin: 14px 0 0;
+      border-left: 3px solid var(--example-color);
+      border-radius: 0 8px 8px 0;
+      padding: 13px 17px;
+      margin: 13px 0 0;
       font-size: 0.88rem;
       line-height: 1.68;
       color: var(--text-primary);
@@ -458,12 +471,10 @@
         width: 100%; min-width: unset;
         height: auto; position: relative;
       }
-      #week-list { display: flex; flex-wrap: wrap; padding: 10px 16px; }
-      #week-list li { margin: 2px; }
-      .week-btn { border-left: none; border-bottom: 3px solid transparent; padding: 8px 14px; }
-      .week-btn.active { border-bottom-color: var(--accent); border-left-color: transparent; }
-      #main { height: auto; padding: 28px 20px 60px; max-width: 100%; }
-      .week-panel-header h2 { font-size: 2rem; }
+      #week-list { display: flex; flex-wrap: wrap; padding: 10px; }
+      #week-list li { margin: 3px; }
+      #main { height: auto; padding: 28px 20px 60px; }
+      .week-panel-header h2 { font-size: 1.7rem; }
     }
   </style>
 </head>
