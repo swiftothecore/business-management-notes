@@ -258,6 +258,22 @@
       border-bottom-color: var(--accent);
     }
 
+    /* Lesson section label — sits inside the tab row as a non-clickable divider */
+    .topic-tab-section {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-sidebar);
+      padding: 0 10px 3px;
+      align-self: flex-end;
+      opacity: 0.5;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      pointer-events: none;
+    }
+
     /* ============================================================
        TOPIC PANEL
        ============================================================ */
@@ -466,8 +482,8 @@
       <li>
         <button class="week-btn active" data-week="1">
           <span class="week-number">1</span>
-          <span class="week-label">Types of Businesses</span>
-          <span class="topic-count">6 topics</span>
+          <span class="week-label">Businesses & Objectives</span>
+          <span class="topic-count">13 topics</span>
         </button>
       </li>
 
@@ -512,10 +528,9 @@
 
       <div class="week-panel-header">
         <div class="week-tag">Week 1</div>
-        <h2>Types of Businesses</h2>
+        <h2>Businesses & Objectives</h2>
         <p class="week-description">
-          An overview of the main business structures available in Australia, including their
-          ownership, liability, and the advantages and disadvantages of each.
+          Lesson 1: Types of business structures in Australia. Lesson 2: Common business objectives including profit, market share, efficiency, effectiveness, and social responsibility.
         </p>
       </div>
 
@@ -525,12 +540,21 @@
            HOW TO ADD A TOPIC: copy a tab button, give it a new
            data-topic value, and add a matching .topic-panel below. -->
       <div class="topic-tabs" data-week="1">
+        <span class="topic-tab-section">Lesson 1</span>
         <button class="topic-tab active" data-topic="w1-sole-trader">Sole Trader</button>
         <button class="topic-tab" data-topic="w1-partnership">Partnership</button>
-        <button class="topic-tab" data-topic="w1-private-ltd">Private Limited Company</button>
-        <button class="topic-tab" data-topic="w1-public-listed">Public Listed Company</button>
+        <button class="topic-tab" data-topic="w1-private-ltd">Private Ltd Co.</button>
+        <button class="topic-tab" data-topic="w1-public-listed">Public Listed Co.</button>
         <button class="topic-tab" data-topic="w1-social-enterprise">Social Enterprises</button>
-        <button class="topic-tab" data-topic="w1-gbe">Govt. Business Enterprises</button>
+        <button class="topic-tab" data-topic="w1-gbe">GBEs</button>
+        <span class="topic-tab-section">Lesson 2</span>
+        <button class="topic-tab" data-topic="w1-profit">Make a Profit</button>
+        <button class="topic-tab" data-topic="w1-market-share">Market Share</button>
+        <button class="topic-tab" data-topic="w1-efficiency">Efficiency</button>
+        <button class="topic-tab" data-topic="w1-effectiveness">Effectiveness</button>
+        <button class="topic-tab" data-topic="w1-market-need">Market Need</button>
+        <button class="topic-tab" data-topic="w1-social-need">Social Need</button>
+        <button class="topic-tab" data-topic="w1-shareholders">Shareholder Expectations</button>
       </div>
 
       <!-- ── WEEK 1 / TOPIC: Sole Trader ── -->
@@ -744,6 +768,158 @@
         2. Add a new <div class="topic-panel"> block here
         ════════════════════
       -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Make a Profit ── -->
+      <div class="topic-panel" data-topic="w1-profit">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">💰</span>To Make a Profit</h3>
+          <ul>
+            <li><strong>Profit</strong> = revenue minus expenses</li>
+            <li>Most common business objective</li>
+            <li><strong>Revenue</strong> = total income from sales</li>
+            <li><strong>Expenses</strong> = costs of running the business</li>
+          </ul>
+          <div class="example-box">
+            <strong>e.g.</strong> Lemonade stall: 50 cups × $2 = $100 revenue. Expenses: $5 cups + $20 lemons/sugar + $5 stall fee = $30. Profit = $70
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Make a Profit -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Market Share ── -->
+      <div class="topic-panel" data-topic="w1-market-share">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">📊</span>To Increase Market Share</h3>
+          <ul>
+            <li><strong>Market share</strong> = a business's portion of an industry's total sales, expressed as a %</li>
+            <li>Key indicator of how well a business is performing relative to competitors</li>
+            <li>To increase market share = gaining sales from competitors</li>
+            <li>Can only be achieved by capturing share from competitors - your slice grows, theirs shrinks</li>
+          </ul>
+          <div class="callout">
+            <strong>Analogy:</strong> the market is a cake; every business gets a slice. Growing your market share means your slice gets bigger while someone else's gets smaller.
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Market Share -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Efficiency ── -->
+      <div class="topic-panel" data-topic="w1-efficiency">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">⚙️</span>To Improve Efficiency</h3>
+          <ul>
+            <li>Efficiency = <strong>minimising inputs</strong> used in the production process</li>
+            <li>Inputs to reduce: raw materials, labour, time, electricity, waste</li>
+            <li>Why: creates a cost or time advantage over competitors</li>
+          </ul>
+          <div class="example-box">
+            <strong>e.g.</strong> Supermarket: self-service checkouts → fewer staff needed<br>
+            <strong>e.g.</strong> Restaurant: correct ingredient quantities → less spoilage<br>
+            <strong>e.g.</strong> Sportswear manufacturer: automated production → less time per item<br>
+            <strong>e.g.</strong> Aldi has built its entire business model around efficiency
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Efficiency -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Effectiveness ── -->
+      <div class="topic-panel" data-topic="w1-effectiveness">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">✅</span>To Improve Effectiveness</h3>
+          <ul>
+            <li>Effectiveness = <strong>how well objectives have been met</strong></li>
+            <li>Achieved by implementing strategies and comparing outcomes against set objectives</li>
+          </ul>
+          <div class="callout">
+            Signs a business has <strong>not</strong> achieved its objectives: defective products, high customer complaints, decreased market share
+          </div>
+          <div class="example-box">
+            <strong>e.g.</strong> Chocolate manufacturer meeting taste/quality expectations → improved sales<br>
+            <strong>e.g.</strong> Restaurant with correct ingredient quantities → fewer diner complaints
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Effectiveness -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Market Need ── -->
+      <div class="topic-panel" data-topic="w1-market-need">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">🎯</span>To Fulfil a Market Need</h3>
+          <ul>
+            <li><strong>Market need</strong> = product or service wanted/required by a specific group of customers</li>
+            <li>Applies to <strong>all</strong> businesses - without a market need, there are no customers</li>
+            <li>Identifying and fulfilling market needs allows businesses to grow, increase profit and market share</li>
+            <li>Ways to fulfil a market need:
+              <ul>
+                <li>Satisfying existing consumer demands</li>
+                <li>Filling a gap in the market (new product/service in a specific area)</li>
+                <li>Offering a new solution to an old problem</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Market Need -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Social Need ── -->
+      <div class="topic-panel" data-topic="w1-social-need">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">🤲</span>To Fulfil a Social Need</h3>
+          <ul>
+            <li><strong>Social need</strong> = product or service wanted or required within the community</li>
+            <li>Focus: common good of society/local community (not just profit)</li>
+            <li>Range: basic services (food, shelter) through to employment/education for disadvantaged groups</li>
+            <li>Closely linked to social enterprises (see Lesson 1)</li>
+          </ul>
+          <div class="example-box">
+            <strong>e.g.</strong> Backpack Bed for Homeless: sells goods to the public, uses all profits to distribute bedding to homeless people - provides a bed every 2 hours
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Social Need -->
+
+      <!-- ── WEEK 1 / LESSON 2 / TOPIC: Shareholder Expectations ── -->
+      <div class="topic-panel" data-topic="w1-shareholders">
+
+        <div class="note-card">
+          <span class="tag">Business Objective</span>
+          <h3><span class="card-icon">📋</span>To Meet Shareholder Expectations</h3>
+          <ul>
+            <li><strong>Shareholders</strong> = persons or groups who own shares in a company (i.e. the owners)</li>
+            <li>Shareholders benefit in two ways:
+              <ul>
+                <li><strong>Dividends</strong>: a portion of net profit paid to shareholders</li>
+                <li><strong>Capital gain</strong>: selling shares at a higher price than purchase price</li>
+              </ul>
+            </li>
+            <li>Key expectations: high dividends + rising share prices</li>
+            <li>Businesses implement strategies specifically to meet these expectations</li>
+          </ul>
+          <div class="example-box">
+            <strong>e.g.</strong> Commonwealth Bank paid shareholders a dividend of $1.75 per share (March 2022)
+          </div>
+        </div>
+
+      </div>
+      <!-- END WEEK 1 / Shareholder Expectations -->
 
     </div>
     <!-- END WEEK 1 PANEL -->
