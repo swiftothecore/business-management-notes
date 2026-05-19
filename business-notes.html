@@ -556,6 +556,22 @@
         ════════════════════════════════════
       -->
 
+      <!-- ── WEEK 13 ── -->
+      <li class="week-item">
+        <button class="week-btn" data-week="13">
+          <span class="week-number">13</span>
+          <span class="week-label">Week 13</span>
+          <span class="expand-icon">▾</span>
+        </button>
+        <ul class="lesson-list">
+          <li>
+            <button class="lesson-btn" data-week="13" data-lesson="1">
+              <span class="lesson-num">L1</span> Lean Management
+            </button>
+          </li>
+        </ul>
+      </li>
+
     </ul>
   </nav>
   <!-- END SIDEBAR -->
@@ -1048,6 +1064,191 @@
 
     </div>
     <!-- END WEEK 2 PANEL -->
+
+
+    <!-- ════════════════════════════════════════════════════════════
+         WEEK 13 PANEL
+         ════════════════════════════════════════════════════════════ -->
+    <div class="week-panel" data-week="13">
+
+      <!-- ════════════════════════════════
+           WEEK 13 / LESSON 1
+           ════════════════════════════════ -->
+      <div class="lesson-group active" data-week="13" data-lesson="1">
+
+        <div class="lesson-header">
+          <span class="lesson-eyebrow">Week 13 · Lesson 1</span>
+          <h2>Lean Management</h2>
+          <p class="lesson-description">A production philosophy focused on eliminating waste by aligning output precisely to customer demand. Core principles: Pull, One-Piece Flow, Takt, and Zero Defects.</p>
+        </div>
+
+        <!-- ── LESSON 1 TOPIC TABS ── -->
+        <div class="topic-tabs">
+          <button class="topic-tab active" data-topic="w13-pull">Pull</button>
+          <button class="topic-tab" data-topic="w13-flow">One-Piece Flow</button>
+          <button class="topic-tab" data-topic="w13-takt">Takt</button>
+          <button class="topic-tab" data-topic="w13-zero">Zero Defects</button>
+        </div>
+
+        <!-- ── WEEK 13 / TOPIC: Pull ── -->
+        <div class="topic-panel active" data-topic="w13-pull">
+
+          <div class="note-card">
+            <span class="tag">Lean Principle</span>
+            <h3><span class="card-icon">←</span>Pull</h3>
+            <ul>
+              <li>Production driven by <strong>actual customer demand</strong> - product is pulled backwards through manufacturing from the customer's order</li>
+              <li>Contrasts with <strong>push</strong>: push produces to forecasted demand, leaving goods in inventory until sold</li>
+              <li>Avoids overproduction and stockpiling, both of which create waste</li>
+              <li>Components replaced only once used - all resources go to goods that will actually sell</li>
+            </ul>
+          </div>
+
+          <div class="adv-disadv-grid">
+            <div class="note-card adv-card">
+              <div class="card-col-header">✔ Advantages</div>
+              <ul>
+                <li>Low inventories - reduced storage costs and waste</li>
+                <li>Sale of produced units guaranteed (based on actual demand)</li>
+                <li>Suitable for unpredictable sales volumes</li>
+                <li>Increases flexibility - fast response to changes in demand</li>
+              </ul>
+            </div>
+            <div class="note-card disadv-card">
+              <div class="card-col-header">✘ Disadvantages</div>
+              <ul>
+                <li>Heavily dependent on suppliers - supply chain disruptions can halt production entirely</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- END WEEK 13 / Pull -->
+
+        <!-- ── WEEK 13 / TOPIC: One-Piece Flow ── -->
+        <div class="topic-panel" data-topic="w13-flow">
+
+          <div class="note-card">
+            <span class="tag">Lean Principle</span>
+            <h3><span class="card-icon">→</span>One-Piece Flow</h3>
+            <ul>
+              <li>Only <strong>one item</strong> is at any given stage of production at one time</li>
+              <li>Contrasts with mass/batch production, where groups of items move together - inefficient due to task-switching and unnecessary movement</li>
+              <li>Multiple items can exist in the overall process simultaneously, but only one at each workstation</li>
+            </ul>
+          </div>
+
+          <div class="adv-disadv-grid">
+            <div class="note-card adv-card">
+              <div class="card-col-header">✔ Advantages</div>
+              <ul>
+                <li>Errors detected earlier - focus on one item improves quality</li>
+                <li>Increased speed - eliminates waiting time and unnecessary movement</li>
+                <li>Reduces inventory costs</li>
+              </ul>
+            </div>
+            <div class="note-card disadv-card">
+              <div class="card-col-header">✘ Disadvantages</div>
+              <ul>
+                <li>Expensive to reconfigure the production line</li>
+                <li>Employee motivation may decrease due to monotonous, repetitive tasks</li>
+                <li>Not suitable for high-variety products</li>
+                <li>Not suitable for products requiring batch processing</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- END WEEK 13 / One-Piece Flow -->
+
+        <!-- ── WEEK 13 / TOPIC: Takt ── -->
+        <div class="topic-panel" data-topic="w13-takt">
+
+          <div class="note-card">
+            <span class="tag">Lean Principle</span>
+            <h3><span class="card-icon">⏱</span>Takt</h3>
+            <ul>
+              <li><strong>Takt time</strong> = the rate at which a business must complete a product to meet customer demand</li>
+              <li>Applies to both manufacturing and service businesses</li>
+            </ul>
+            <div class="callout">
+              <strong>Formula:</strong> Takt time = Available production time ÷ Units required
+            </div>
+          </div>
+
+          <div class="adv-disadv-grid">
+            <div class="note-card disadv-card">
+              <div class="card-col-header">⚠ Slower than takt time</div>
+              <ul>
+                <li>Backlog occurs - customer demand cannot be met</li>
+              </ul>
+            </div>
+            <div class="note-card adv-card">
+              <div class="card-col-header">⚠ Faster than takt time</div>
+              <ul>
+                <li>Staff and machinery underutilised</li>
+                <li>Producing more than needed causes overproduction</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- END WEEK 13 / Takt -->
+
+        <!-- ── WEEK 13 / TOPIC: Zero Defects ── -->
+        <div class="topic-panel" data-topic="w13-zero">
+
+          <div class="note-card">
+            <span class="tag">Lean Principle</span>
+            <h3><span class="card-icon">✦</span>Zero Defects</h3>
+            <ul>
+              <li>"<strong>Do it right the first time</strong>" - avoid and reduce errors to prevent costly corrections later</li>
+              <li>Defects found at one stage must be detected before passing to the next</li>
+            </ul>
+          </div>
+
+          <div class="adv-disadv-grid">
+            <div class="note-card adv-card">
+              <div class="card-col-header">✔ Advantages</div>
+              <ul>
+                <li>Reduces cost and waste</li>
+                <li>Increases customer satisfaction - potentially improves sales and profit</li>
+                <li>Creates a culture of continuous improvement</li>
+              </ul>
+            </div>
+            <div class="note-card disadv-card">
+              <div class="card-col-header">✘ Disadvantages</div>
+              <ul>
+                <li>Unrealistic to expect zero defects entirely</li>
+                <li>Dedicating excessive resources to it can be a poor use of those resources</li>
+                <li>Increased pressure on staff can negatively impact morale</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- END WEEK 13 / Zero Defects -->
+
+        <!--
+          ════════════════════════════════
+          ADD MORE LESSON 1 TOPICS HERE
+          1. Add a topic-tab button in the lesson 1 topic-tabs div above
+          2. Add a matching topic-panel block here
+          ════════════════════════════════
+        -->
+
+      </div>
+      <!-- END WEEK 13 / LESSON 1 -->
+
+      <!--
+        ════════════════════════════════════════════════════════════════════
+        ADD NEW LESSONS TO WEEK 13 HERE — copy the lesson-group block above.
+        Remember to also add a matching lesson-btn in the sidebar.
+        ════════════════════════════════════════════════════════════════════
+      -->
+
+    </div>
+    <!-- END WEEK 13 PANEL -->
 
 
     <!--
