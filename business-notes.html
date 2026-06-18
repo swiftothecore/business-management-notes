@@ -478,6 +478,18 @@
       line-height: 1.65;
     }
 
+    /* Unit divider in sidebar */
+    .unit-divider {
+      padding: 14px 16px 6px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       body { flex-direction: column; overflow: auto; }
@@ -750,6 +762,25 @@
           <li>
             <button class="lesson-btn" data-week="14" data-lesson="2">
               <span class="lesson-num">L2</span> Global Considerations
+            </button>
+          </li>
+        </ul>
+      </li>
+
+      <!-- ── UNIT 4 DIVIDER ── -->
+      <div class="unit-divider">Unit 4</div>
+
+      <!-- ── UNIT 4 / WEEK 1 ── -->
+      <li class="week-item">
+        <button class="week-btn" data-week="15">
+          <span class="week-number">1</span>
+          <span class="week-label">Week 1</span>
+          <span class="expand-icon">▾</span>
+        </button>
+        <ul class="lesson-list">
+          <li>
+            <button class="lesson-btn" data-week="15" data-lesson="1">
+              <span class="lesson-num">L1</span> Concept of Business Change
             </button>
           </li>
         </ul>
@@ -4777,6 +4808,131 @@
 
       ════════════════════════════════════════════════════════════════════
     -->
+
+    <!-- ════════════════════════════════════════════════════════════
+         UNIT 4 / WEEK 1 PANEL
+         ════════════════════════════════════════════════════════════ -->
+    <div class="week-panel" data-week="15">
+
+      <!-- ════════════════════════════════
+           UNIT 4 / WEEK 1 / LESSON 1
+           ════════════════════════════════ -->
+      <div class="lesson-group active" data-week="15" data-lesson="1">
+
+        <div class="lesson-header">
+          <span class="lesson-eyebrow">Unit 4 · Week 1 · Lesson 1</span>
+          <h2>The Concept of Business Change</h2>
+          <p class="lesson-description">What change means in a business context, why it matters, and the two key approaches a business can take — proactive and reactive.</p>
+        </div>
+
+        <div class="topic-tabs">
+          <button class="topic-tab active" data-topic="u4w1-concept">What is Change?</button>
+          <button class="topic-tab" data-topic="u4w1-proactive">Proactive Approach</button>
+          <button class="topic-tab" data-topic="u4w1-reactive">Reactive Approach</button>
+        </div>
+
+        <!-- ── UNIT 4 / W1 / L1 / TOPIC: What is Change? ── -->
+        <div class="topic-panel active" data-topic="u4w1-concept">
+
+          <div class="note-card">
+            <span class="tag">Key Concept</span>
+            <h3><span class="card-icon">🔄</span>Business Change</h3>
+            <div class="callout">
+              <strong>Change</strong> is a business's planned or unplanned response to internal or external pressures.
+            </div>
+            <ul>
+              <li>The ability to manage, adapt to, and embrace change will increasingly determine a business's <strong>competitive position</strong> and its future</li>
+              <li>Businesses that are not keeping up with change can fail</li>
+              <li>Change enables a business to meet the dynamic needs of its customers and <strong>create growth opportunities</strong></li>
+              <li>Allows a business to keep up with <strong>advancing technology</strong> and respond to <strong>different economic conditions</strong> (e.g. strong or weak economic growth)</li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- END UNIT 4 / W1 / L1 / What is Change? -->
+
+        <!-- ── UNIT 4 / W1 / L1 / TOPIC: Proactive Approach ── -->
+        <div class="topic-panel" data-topic="u4w1-proactive">
+
+          <div class="note-card">
+            <span class="tag">Approach to Change</span>
+            <h3><span class="card-icon">🔭</span>Proactive Approach</h3>
+            <div class="callout">
+              A proactive approach is where the business initiates change <strong>before</strong> the need for it arises.
+            </div>
+            <p>This can be achieved through:</p>
+            <ul>
+              <li>Anticipating future driving forces</li>
+              <li>Forecasting possible future events</li>
+              <li>Analysing key performance indicators (KPIs) to identify trends and pressures early</li>
+              <li>Being innovative and investing in research and development</li>
+            </ul>
+          </div>
+
+          <div class="adv-disadv-grid">
+            <div class="note-card adv-card">
+              <div class="card-col-header">✔ Advantages</div>
+              <ul>
+                <li>Businesses that pursue this approach are generally more successful than those that do not</li>
+                <li>Allows the business to gain and maintain a competitive advantage</li>
+                <li>Opportunities and problems can be identified early</li>
+                <li>Time to analyse all factors and plan the change carefully</li>
+              </ul>
+            </div>
+            <div class="note-card disadv-card">
+              <div class="card-col-header">✘ Disadvantages</div>
+              <ul>
+                <li>Requires ongoing investment into research and preparation for possible (and uncertain) future scenarios</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- END UNIT 4 / W1 / L1 / Proactive Approach -->
+
+        <!-- ── UNIT 4 / W1 / L1 / TOPIC: Reactive Approach ── -->
+        <div class="topic-panel" data-topic="u4w1-reactive">
+
+          <div class="note-card">
+            <span class="tag">Approach to Change</span>
+            <h3><span class="card-icon">⚡</span>Reactive Approach</h3>
+            <div class="callout">
+              A reactive approach is when the business is <strong>forced to act</strong> on internal or external pressures.
+            </div>
+            <p>This can take the form of:</p>
+            <ul>
+              <li>Responding to driving forces</li>
+              <li>Observing and imitating actions of competitors</li>
+              <li>Responding after a crisis has arrived</li>
+            </ul>
+          </div>
+
+          <div class="adv-disadv-grid">
+            <div class="note-card adv-card">
+              <div class="card-col-header">✔ Advantages</div>
+              <ul>
+                <li>Easier to identify the required change — the problem or pressure is already visible</li>
+                <li>Imitating competitors allows the business to copy only the strategies that have proven successful</li>
+              </ul>
+            </div>
+            <div class="note-card disadv-card">
+              <div class="card-col-header">✘ Disadvantages</div>
+              <ul>
+                <li>Risk of being too late to respond, especially in today's highly competitive markets where staying ahead is critical</li>
+                <li>Businesses are often unprepared, forcing changes in a limited time and resulting in rushed and potentially incorrect decisions</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- END UNIT 4 / W1 / L1 / Reactive Approach -->
+
+      </div>
+      <!-- END UNIT 4 / WEEK 1 / LESSON 1 -->
+
+    </div>
+    <!-- END UNIT 4 / WEEK 1 PANEL -->
+
 
   </main>
   <!-- END MAIN CONTENT -->
