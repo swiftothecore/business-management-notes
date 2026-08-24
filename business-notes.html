@@ -490,6 +490,179 @@
       margin-top: 4px;
     }
 
+    /* ============================================================
+       SEARCH
+       ============================================================ */
+    #search-wrap {
+      position: relative;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-sidebar-top);
+    }
+
+    #search-input-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    #search-input-row .search-icon {
+      position: absolute;
+      left: 10px;
+      font-size: 0.8rem;
+      color: var(--text-sidebar);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    #search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 30px 8px 30px;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    #search-input::placeholder { color: var(--text-sidebar); }
+
+    #search-input:focus {
+      border-color: var(--accent-dim);
+      background: var(--bg-card-raised);
+    }
+
+    #search-clear {
+      position: absolute;
+      right: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-sidebar);
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 4px 6px;
+      line-height: 1;
+      display: none;
+    }
+
+    #search-clear:hover { color: var(--text-sidebar-hover); }
+
+    #search-shortcut-hint {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.62rem;
+      color: var(--text-sidebar);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 1px 5px;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    #search-input:focus ~ #search-shortcut-hint,
+    #search-wrap.has-query #search-shortcut-hint { display: none; }
+
+    #search-wrap.has-query #search-clear { display: block; }
+
+    /* Dropdown results panel — fixed so it can overlay main content
+       regardless of sidebar width on desktop or mobile */
+    #search-results {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 6px;
+    }
+
+    #search-results.open { display: block; }
+
+    #search-results .search-meta {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-sidebar);
+      padding: 8px 10px 6px;
+    }
+
+    #search-results .search-empty {
+      padding: 18px 12px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .search-result {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .search-result:hover,
+    .search-result.active-result {
+      background: var(--accent-light);
+    }
+
+    .search-result .result-breadcrumb {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .search-result .result-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .search-result .result-snippet {
+      font-size: 0.76rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .search-result .result-snippet mark {
+      background: var(--accent-dim);
+      color: var(--text-primary);
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    /* Flash highlight on the note-card navigated to from search */
+    @keyframes searchFlash {
+      0%   { box-shadow: 0 0 0 2px var(--accent); }
+      100% { box-shadow: 0 0 0 2px transparent; }
+    }
+
+    .search-highlight {
+      animation: searchFlash 1.6s ease;
+      border-color: var(--accent) !important;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       body { flex-direction: column; overflow: auto; }
@@ -521,6 +694,30 @@
       <div class="course-label">Study Notes</div>
       <h1>Business Management</h1>
       <p>Select a week to begin</p>
+    </div>
+
+    <!-- ============================================================
+         SEARCH
+         Live, client-side search across every note card in the site.
+         Indexed once on load from the DOM itself, so it never goes
+         out of sync with the content — no separate data file to
+         maintain when new weeks/lessons/topics are added.
+         ============================================================ -->
+    <div id="search-wrap">
+      <div id="search-input-row">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search notes…"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search notes"
+        />
+        <span id="search-shortcut-hint">/</span>
+        <button id="search-clear" type="button" aria-label="Clear search">✕</button>
+      </div>
+      <div id="search-results" role="listbox"></div>
     </div>
 
     <ul id="week-list">
@@ -7180,6 +7377,317 @@
         if (targetPanel) targetPanel.classList.add('active');
       });
     });
+
+    /* ── 4. Search — indexing, matching, results UI, navigation ── */
+    (function () {
+      const searchInput   = document.getElementById('search-input');
+      const searchWrap     = document.getElementById('search-wrap');
+      const resultsPanel  = document.getElementById('search-results');
+      const clearBtn      = document.getElementById('search-clear');
+
+      let searchIndex = [];
+      let activeResults = [];
+      let activeIndex = -1;
+
+      /* Build the index once from the DOM. Each entry is one note-card
+         (including advantage/disadvantage sub-cards), tagged with the
+         week/lesson/topic it lives in so we can jump straight to it. */
+      function buildIndex() {
+        const index = [];
+        document.querySelectorAll('.topic-panel').forEach(panel => {
+          const topicKey    = panel.dataset.topic;
+          const lessonGroup = panel.closest('.lesson-group');
+          if (!lessonGroup) return;
+
+          const weekNum   = lessonGroup.dataset.week;
+          const lessonNum = lessonGroup.dataset.lesson;
+          const lessonTitleEl = lessonGroup.querySelector('.lesson-header h2');
+          const lessonTitle = lessonTitleEl ? lessonTitleEl.textContent.trim() : '';
+
+          const tabBtn = lessonGroup.querySelector(`.topic-tab[data-topic="${CSS.escape(topicKey)}"]`);
+          const topicLabel = tabBtn ? tabBtn.textContent.trim() : '';
+
+          const mainH3 = panel.querySelector('h3');
+          const mainTitle = mainH3 ? mainH3.textContent.trim() : topicLabel;
+
+          const breadcrumb = `Week ${weekNum} · L${lessonNum} ${lessonTitle}`;
+
+          panel.querySelectorAll('.note-card').forEach(card => {
+            const h3 = card.querySelector('h3');
+            const colHeader = card.querySelector('.card-col-header');
+            let cardTitle;
+            if (h3) {
+              cardTitle = h3.textContent.trim();
+            } else if (colHeader) {
+              cardTitle = `${mainTitle} — ${colHeader.textContent.trim().replace(/^[✔✘]\s*/, '')}`;
+            } else {
+              cardTitle = mainTitle;
+            }
+
+            const text = card.textContent.replace(/\s+/g, ' ').trim();
+            const searchId = String(index.length);
+            card.dataset.searchId = searchId;
+
+            index.push({
+              id: searchId,
+              week: weekNum,
+              lesson: lessonNum,
+              topic: topicKey,
+              breadcrumb,
+              topicLabel,
+              title: cardTitle,
+              text,
+              lowerText: text.toLowerCase(),
+              lowerTitle: cardTitle.toLowerCase()
+            });
+          });
+        });
+        return index;
+      }
+
+      function escapeRegExp(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/[&<>]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[ch]));
+      }
+
+      /* Score + rank entries against a (possibly multi-word) query. */
+      function search(query) {
+        const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        if (!words.length) return [];
+
+        const scored = [];
+        for (const entry of searchIndex) {
+          let score = 0;
+          let allWordsPresent = true;
+
+          for (const w of words) {
+            const inTitle = entry.lowerTitle.includes(w);
+            const bodyMatches = entry.lowerText.split(w).length - 1;
+            if (!inTitle && bodyMatches === 0) {
+              allWordsPresent = false;
+              break;
+            }
+            if (inTitle) score += 12;
+            score += Math.min(bodyMatches, 5) * 2;
+            if (entry.lowerTitle.startsWith(w)) score += 6;
+          }
+
+          if (allWordsPresent) scored.push({ entry, score });
+        }
+
+        scored.sort((a, b) => b.score - a.score);
+        return scored.slice(0, 25).map(s => s.entry);
+      }
+
+      /* Build a short snippet around the first matched word, with all
+         query words highlighted inside it. */
+      function buildSnippet(entry, words) {
+        const text = entry.text;
+        const lower = entry.lowerText;
+        let hitPos = -1;
+        for (const w of words) {
+          const p = lower.indexOf(w);
+          if (p !== -1 && (hitPos === -1 || p < hitPos)) hitPos = p;
+        }
+        if (hitPos === -1) hitPos = 0;
+
+        const radius = 70;
+        let start = Math.max(0, hitPos - radius);
+        let end = Math.min(text.length, hitPos + radius);
+        let snippet = text.slice(start, end);
+        if (start > 0) snippet = '… ' + snippet;
+        if (end < text.length) snippet = snippet + ' …';
+
+        let safe = escapeHtml(snippet);
+        for (const w of words) {
+          if (!w) continue;
+          const re = new RegExp('(' + escapeRegExp(w) + ')', 'ig');
+          safe = safe.replace(re, '<mark>$1</mark>');
+        }
+        return safe;
+      }
+
+      function renderResults(query) {
+        const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        resultsPanel.innerHTML = '';
+        activeIndex = -1;
+
+        if (!activeResults.length) {
+          const empty = document.createElement('div');
+          empty.className = 'search-empty';
+          empty.textContent = `No notes match "${query}"`;
+          resultsPanel.appendChild(empty);
+          return;
+        }
+
+        const meta = document.createElement('div');
+        meta.className = 'search-meta';
+        meta.textContent = `${activeResults.length} result${activeResults.length === 1 ? '' : 's'}`;
+        resultsPanel.appendChild(meta);
+
+        activeResults.forEach((entry, i) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'search-result';
+          btn.setAttribute('role', 'option');
+          btn.dataset.index = String(i);
+
+          const crumb = document.createElement('div');
+          crumb.className = 'result-breadcrumb';
+          crumb.textContent = `${entry.breadcrumb} · ${entry.topicLabel}`;
+
+          const title = document.createElement('div');
+          title.className = 'result-title';
+          title.textContent = entry.title;
+
+          const snippet = document.createElement('div');
+          snippet.className = 'result-snippet';
+          snippet.innerHTML = buildSnippet(entry, words);
+
+          btn.appendChild(crumb);
+          btn.appendChild(title);
+          btn.appendChild(snippet);
+          btn.addEventListener('click', () => goToResult(entry));
+
+          resultsPanel.appendChild(btn);
+        });
+      }
+
+      function positionResultsPanel() {
+        const rect = searchInput.getBoundingClientRect();
+        const wrapRect = searchWrap.getBoundingClientRect();
+        resultsPanel.style.left = wrapRect.left + 'px';
+        resultsPanel.style.top = (rect.bottom + 6) + 'px';
+        resultsPanel.style.width = wrapRect.width + 'px';
+      }
+
+      function openResults() {
+        positionResultsPanel();
+        resultsPanel.classList.add('open');
+      }
+
+      function closeResults() {
+        resultsPanel.classList.remove('open');
+        activeIndex = -1;
+      }
+
+      function setActiveResultIndex(i) {
+        const buttons = resultsPanel.querySelectorAll('.search-result');
+        buttons.forEach(b => b.classList.remove('active-result'));
+        if (i >= 0 && i < buttons.length) {
+          buttons[i].classList.add('active-result');
+          buttons[i].scrollIntoView({ block: 'nearest' });
+        }
+        activeIndex = i;
+      }
+
+      function goToResult(entry) {
+        const lessonBtn = document.querySelector(
+          `.lesson-btn[data-week="${CSS.escape(entry.week)}"][data-lesson="${CSS.escape(entry.lesson)}"]`
+        );
+        if (lessonBtn) lessonBtn.click();
+
+        const lessonGroup = document.querySelector(
+          `.lesson-group[data-week="${CSS.escape(entry.week)}"][data-lesson="${CSS.escape(entry.lesson)}"]`
+        );
+        const topicTab = lessonGroup
+          ? lessonGroup.querySelector(`.topic-tab[data-topic="${CSS.escape(entry.topic)}"]`)
+          : null;
+        if (topicTab) topicTab.click();
+
+        closeResults();
+        searchInput.blur();
+
+        requestAnimationFrame(() => {
+          const card = document.querySelector(`[data-search-id="${entry.id}"]`);
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            card.classList.add('search-highlight');
+            setTimeout(() => card.classList.remove('search-highlight'), 1600);
+          }
+        });
+      }
+
+      function runSearch() {
+        const query = searchInput.value;
+        searchWrap.classList.toggle('has-query', query.trim().length > 0);
+
+        if (!query.trim()) {
+          activeResults = [];
+          closeResults();
+          return;
+        }
+
+        activeResults = search(query);
+        renderResults(query);
+        openResults();
+      }
+
+      /* ── Wire up events ── */
+      searchInput.addEventListener('input', runSearch);
+
+      searchInput.addEventListener('focus', () => {
+        if (searchInput.value.trim() && activeResults.length) openResults();
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        const buttons = resultsPanel.querySelectorAll('.search-result');
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (buttons.length) setActiveResultIndex(Math.min(activeIndex + 1, buttons.length - 1));
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (buttons.length) setActiveResultIndex(Math.max(activeIndex - 1, 0));
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (activeIndex >= 0 && activeResults[activeIndex]) {
+            goToResult(activeResults[activeIndex]);
+          } else if (activeResults.length) {
+            goToResult(activeResults[0]);
+          }
+        } else if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchWrap.classList.remove('has-query');
+          activeResults = [];
+          closeResults();
+          searchInput.blur();
+        }
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchWrap.classList.remove('has-query');
+        activeResults = [];
+        closeResults();
+        searchInput.focus();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!searchWrap.contains(e.target) && !resultsPanel.contains(e.target)) {
+          closeResults();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (resultsPanel.classList.contains('open')) positionResultsPanel();
+      });
+
+      /* Global "/" shortcut to jump into search, like GitHub's. */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+          const tag = document.activeElement.tagName;
+          if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+            e.preventDefault();
+            searchInput.focus();
+          }
+        }
+      });
+
+      searchIndex = buildIndex();
+    })();
 
   </script>
 
