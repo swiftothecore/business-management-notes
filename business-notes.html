@@ -7632,6 +7632,37 @@
       });
     });
 
+    /* ── 3b. Arrow key navigation between subcategory (topic) tabs ── */
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+
+      // Don't hijack arrow keys while typing in an input, textarea, or
+      // anything else that's meant to receive normal text navigation.
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable)) return;
+
+      // Find the currently visible lesson-group, then the currently active tab within it.
+      const activeWeekPanel = document.querySelector('.week-panel.active');
+      if (!activeWeekPanel) return;
+      const lessonGroup = activeWeekPanel.querySelector('.lesson-group.active');
+      if (!lessonGroup) return;
+
+      const tabs = Array.from(lessonGroup.querySelectorAll('.topic-tab'));
+      if (tabs.length < 2) return;
+
+      const currentIndex = tabs.findIndex(t => t.classList.contains('active'));
+      if (currentIndex === -1) return;
+
+      e.preventDefault();
+
+      const nextIndex = e.key === 'ArrowRight'
+        ? (currentIndex + 1) % tabs.length
+        : (currentIndex - 1 + tabs.length) % tabs.length;
+
+      tabs[nextIndex].click();
+      tabs[nextIndex].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
+
     /* ── 4. Search — indexing, matching, results UI, navigation ── */
     (function () {
       const searchInput   = document.getElementById('search-input');
