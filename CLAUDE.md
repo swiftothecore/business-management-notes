@@ -24,3 +24,4 @@ migration commit.
   && git commit -m "..." && git push`.
 - New export downloaded: run `update-notes.sh` (or the `update-notes` alias)
   instead of doing it by hand.
+- Do not add a `Co-Authored-By: Claude` trailer to commit messages in this repo.
