@@ -7702,6 +7702,43 @@
       tabs[nextIndex].scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
 
+    /* ── 3c. Arrow key navigation between weeks ── */
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+
+      // Don't hijack arrow keys while typing in an input, textarea, or
+      // anything else that's meant to receive normal text navigation.
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable)) return;
+
+      // Weeks in sidebar order (this already skips any week numbers with no content).
+      const weekBtns = Array.from(document.querySelectorAll('.week-btn'));
+      if (weekBtns.length < 2) return;
+
+      // Find which week is currently showing, via the active lesson button.
+      const activeLessonBtn = document.querySelector('.lesson-btn.active');
+      const currentWeekItem = activeLessonBtn ? activeLessonBtn.closest('.week-item') : null;
+      const currentWeekBtn = currentWeekItem ? currentWeekItem.querySelector('.week-btn') : null;
+      const currentIndex = currentWeekBtn ? weekBtns.indexOf(currentWeekBtn) : -1;
+      if (currentIndex === -1) return;
+
+      const nextIndex = e.key === 'ArrowDown'
+        ? Math.min(currentIndex + 1, weekBtns.length - 1)
+        : Math.max(currentIndex - 1, 0);
+      if (nextIndex === currentIndex) return;
+
+      e.preventDefault();
+
+      // Jump to the first lesson of the target week (its own click handler
+      // opens the week item, shows the right panel, and resets to the first topic tab).
+      const nextWeekItem = weekBtns[nextIndex].closest('.week-item');
+      const firstLessonBtn = nextWeekItem ? nextWeekItem.querySelector('.lesson-btn') : null;
+      if (firstLessonBtn) {
+        firstLessonBtn.click();
+        firstLessonBtn.scrollIntoView({ block: 'nearest' });
+      }
+    });
+
     /* ── 4. Search — indexing, matching, results UI, navigation ── */
     (function () {
       const searchInput   = document.getElementById('search-input');
