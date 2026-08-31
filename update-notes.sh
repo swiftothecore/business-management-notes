@@ -5,7 +5,7 @@ set -e
 REPO="/Users/corey/Documents/Business Management Notes"
 
 # Use the file passed as $1, or auto-detect the newest business-notes-v*.html
-# dropped straight into the repo folder (excludes the tracked business-notes.html itself)
+# dropped straight into the repo folder (excludes the tracked index.html itself)
 if [ -n "$1" ]; then
   SRC="$1"
 else
@@ -20,14 +20,14 @@ fi
 VERSION=$(basename "$SRC" .html | sed -E 's/.*-v([0-9]+).*/v\1/')
 cd "$REPO"
 
-if diff -q "$SRC" business-notes.html >/dev/null 2>&1; then
-  echo "No changes — $SRC is identical to the current business-notes.html"
+if diff -q "$SRC" index.html >/dev/null 2>&1; then
+  echo "No changes — $SRC is identical to the current index.html"
   rm -f "$SRC"
   exit 0
 fi
 
-cp "$SRC" business-notes.html
-git add business-notes.html
+cp "$SRC" index.html
+git add index.html
 git commit -q -m "${2:-$VERSION}"
 git push -q
 rm -f "$SRC"

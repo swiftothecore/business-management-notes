@@ -7,8 +7,10 @@ migration commit.
 
 ## Files
 
-- `business-notes.html` — the one live, tracked file. Never fork this into
-  `business-notes-v38.html` etc. — commit changes to it directly.
+- `index.html` — the one live, tracked file (named `index.html`, not
+  `business-notes.html`, so GitHub Pages serves it at the repo's root URL).
+  Never fork this into `business-notes-v38.html` etc. — commit changes to it
+  directly.
 - `update-notes.sh` — run after downloading a fresh export straight into this
   folder (as `business-notes-vNN.html` or similar). It diffs it against the
   tracked file, commits, pushes to GitHub, and deletes the downloaded copy.
@@ -16,11 +18,14 @@ migration commit.
 - `reference/2023-business-management-study-design.docx` — the official VCE
   Business Management study design. Useful for cross-checking whether notes
   cover a given area/outcome, or for matching terminology.
-- Remote: `origin` → `github.com/swiftothecore/business-management-notes` (private).
+- Remote: `origin` → `github.com/swiftothecore/business-management-notes`
+  (public, so GitHub Pages can serve it — see below).
+- GitHub Pages: enabled from the `main` branch root, serving `index.html` at
+  `https://swiftothecore.github.io/business-management-notes/`.
 
 ## Workflow
 
-- Normal edit: modify `business-notes.html`, then `git add business-notes.html
+- Normal edit: modify `index.html`, then `git add index.html
   && git commit -m "..." && git push`.
 - New export downloaded: run `update-notes.sh` (or the `update-notes` alias)
   instead of doing it by hand.
