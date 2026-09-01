@@ -44,31 +44,33 @@
        CSS VARIABLES — edit these to retheme the entire document
        ============================================================ */
     :root {
-      --bg-page:        #141517;       /* near-black page background */
-      --bg-sidebar:     #0E0F11;       /* deeper black sidebar */
-      --bg-sidebar-top: #0A0B0D;
-      --bg-card:        #1C1E22;       /* dark card surface */
-      --bg-card-raised: #222428;       /* slightly lighter for nested elements */
-      --accent:         #C44B7A;       /* dark rose pink accent */
-      --accent-light:   rgba(196, 75, 122, 0.12);
-      --accent-dim:     rgba(196, 75, 122, 0.4);
-      --text-primary:   #DFE1E6;       /* soft white body text */
-      --text-secondary: #7E8594;       /* muted grey subtext */
-      --text-sidebar:   #4E545F;       /* dim text on sidebar */
-      --text-sidebar-hover: #9AA0AC;
-      --text-sidebar-active: #DFE1E6;
-      --border:         #26282E;       /* subtle dark border */
-      --border-bright:  #32353D;
-      --tag-bg:         rgba(196, 75, 122, 0.12);
-      --tag-text:       #C44B7A;
-      --adv-color:      #4A9E72;
-      --adv-bg:         rgba(74, 158, 114, 0.08);
-      --disadv-color:   #C05050;
-      --disadv-bg:      rgba(192, 80, 80, 0.08);
-      --example-color:  #5B8FCC;
-      --example-bg:     rgba(91, 143, 204, 0.08);
+      --bg-page:        #17120F;       /* warm ink page background */
+      --bg-sidebar:     #100C0A;       /* deeper warm ink sidebar */
+      --bg-sidebar-top: #0B0806;
+      --bg-card:        #201A16;       /* warm dark surface */
+      --bg-card-raised: #292118;       /* slightly lighter for nested elements */
+      --accent:         #E3506F;       /* FT pink - interactive / active states */
+      --accent-deep:    #B0304F;       /* claret - rules, labels, print marks */
+      --accent-light:   rgba(227, 80, 111, 0.10);
+      --accent-dim:     rgba(227, 80, 111, 0.38);
+      --text-primary:   #F2E7DC;       /* warm paper-white body text */
+      --text-secondary: #A79A8E;       /* warm muted subtext */
+      --text-sidebar:   #6B5F55;       /* dim text on sidebar */
+      --text-sidebar-hover: #A79A8E;
+      --text-sidebar-active: #F2E7DC;
+      --border:         #2E241C;       /* warm hairline */
+      --border-bright:  #3D3025;
+      --tag-bg:         rgba(227, 80, 111, 0.10);
+      --tag-text:       #E3506F;
+      --adv-color:      #4E9C87;
+      --adv-bg:         rgba(78, 156, 135, 0.08);
+      --disadv-color:   #CC6B5A;
+      --disadv-bg:      rgba(204, 107, 90, 0.08);
+      --example-color:  #7FA8C4;
+      --example-bg:     rgba(127, 168, 196, 0.08);
       --font-display:   'Lora', Georgia, serif;
       --font-body:      'Nunito Sans', sans-serif;
+      --font-mono:      ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
       --sidebar-width:  230px;
       --radius:         5px;
       --transition:     0.16s ease;
@@ -83,6 +85,7 @@
       font-family: var(--font-body);
       background: var(--bg-page);
       color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
       min-height: 100vh;
       display: flex;
       overflow: hidden;
@@ -124,7 +127,7 @@
       font-family: var(--font-display);
       font-size: 1.15rem;
       font-weight: 600;
-      font-style: italic;
+      letter-spacing: -0.012em;
       color: var(--text-sidebar-active);
       line-height: 1.25;
     }
@@ -206,11 +209,12 @@
        NOTE CARDS — compact, dark, low-radius
        ============================================================ */
     .note-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      margin-bottom: 12px;
+      background: transparent;
+      border: none;
+      border-top: 1px solid var(--border);
+      border-radius: 0;
+      padding: 16px 0 4px;
+      margin-bottom: 14px;
     }
 
     .note-card h3 {
@@ -225,7 +229,9 @@
       line-height: 1.3;
     }
 
-    .note-card h3 .card-icon { font-size: 1rem; flex-shrink: 0; }
+    /* Emoji icons hidden for a document-like read.
+       To bring them back, change `none` to `inline`. */
+    .note-card h3 .card-icon { display: none; font-size: 1rem; flex-shrink: 0; }
 
     .note-card p {
       font-size: 0.87rem;
@@ -300,12 +306,16 @@
     .adv-disadv-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 0;
+      margin-bottom: 16px;
     }
+
+    /* Hairline down the middle of the ledger */
+    .adv-disadv-grid .note-card.disadv-card { border-left: 1px solid var(--border); }
 
     @media (max-width: 700px) {
       .adv-disadv-grid { grid-template-columns: 1fr; }
+      .adv-disadv-grid .note-card.disadv-card { border-left: none; }
     }
 
     .adv-disadv-grid .note-card {
@@ -319,9 +329,10 @@
 
     .adv-disadv-grid .note-card .card-col-header {
       padding: 8px 14px;
+      font-family: var(--font-mono);
       font-size: 0.6rem;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       border-bottom: 1px solid var(--border);
     }
@@ -531,6 +542,7 @@
     #search-input-row .search-icon {
       position: absolute;
       left: 10px;
+      display: flex;
       font-size: 0.8rem;
       color: var(--text-sidebar);
       pointer-events: none;
@@ -685,6 +697,25 @@
       border-color: var(--accent) !important;
     }
 
+    /* ============================================================
+       DOCUMENT FURNITURE - small-caps labels set in mono, the way
+       rules, kickers and column heads read in financial print.
+       ============================================================ */
+    #sidebar-header .course-label,
+    .tag,
+    .unit-divider,
+    .lesson-header .lesson-eyebrow,
+    .week-btn .week-number,
+    .lesson-btn .lesson-num,
+    #search-results .search-meta,
+    .search-result .result-breadcrumb {
+      font-family: var(--font-mono);
+    }
+
+    /* Claret rules for structural dividers */
+    .lesson-header { border-bottom-color: var(--accent-deep); }
+    .unit-divider  { border-top-color: var(--accent-deep); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       body { flex-direction: column; overflow: auto; }
@@ -727,7 +758,7 @@
          ============================================================ -->
     <div id="search-wrap">
       <div id="search-input-row">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14.5 14.5" stroke-linecap="round"/></svg></span>
         <input
           type="text"
           id="search-input"
@@ -1193,7 +1224,7 @@
 
         <div class="adv-disadv-grid">
           <div class="note-card adv-card">
-            <div class="card-col-header">✔ Advantages</div>
+            <div class="card-col-header">+ Advantages</div>
             <ul>
               <li>Easy and inexpensive to set up</li>
               <li>Few legal/tax formalities</li>
@@ -1203,7 +1234,7 @@
             </ul>
           </div>
           <div class="note-card disadv-card">
-            <div class="card-col-header">✘ Disadvantages</div>
+            <div class="card-col-header">− Disadvantages</div>
             <ul>
               <li>Fully liable for business debts - personal assets at risk</li>
               <li>Heavy reliance on owner - long work hours</li>
@@ -1231,7 +1262,7 @@
 
         <div class="adv-disadv-grid">
           <div class="note-card adv-card">
-            <div class="card-col-header">✔ Advantages</div>
+            <div class="card-col-header">+ Advantages</div>
             <ul>
               <li>Easy and inexpensive to set up</li>
               <li>Combines resources and expertise of multiple people</li>
@@ -1240,7 +1271,7 @@
             </ul>
           </div>
           <div class="note-card disadv-card">
-            <div class="card-col-header">✘ Disadvantages</div>
+            <div class="card-col-header">− Disadvantages</div>
             <ul>
               <li>Not a separate entity - all partners personally liable (unlimited liability)</li>
               <li>Each partner liable for debts incurred by the others</li>
@@ -1270,7 +1301,7 @@
 
         <div class="adv-disadv-grid">
           <div class="note-card adv-card">
-            <div class="card-col-header">✔ Advantages</div>
+            <div class="card-col-header">+ Advantages</div>
             <ul>
               <li>Limited liability - shareholders can only lose share value</li>
               <li>Tax advantages over sole traders and partnerships</li>
@@ -1278,7 +1309,7 @@
             </ul>
           </div>
           <div class="note-card disadv-card">
-            <div class="card-col-header">✘ Disadvantages</div>
+            <div class="card-col-header">− Disadvantages</div>
             <ul>
               <li>More complex - higher set-up and admin costs</li>
               <li>More regulated than sole traders/partnerships</li>
@@ -1310,7 +1341,7 @@
 
         <div class="adv-disadv-grid">
           <div class="note-card adv-card">
-            <div class="card-col-header">✔ Advantages</div>
+            <div class="card-col-header">+ Advantages</div>
             <ul>
               <li>Limited liability - shareholders can only lose share value</li>
               <li>Going public creates large capital influx without incurring debt</li>
@@ -1320,7 +1351,7 @@
             </ul>
           </div>
           <div class="note-card disadv-card">
-            <div class="card-col-header">✘ Disadvantages</div>
+            <div class="card-col-header">− Disadvantages</div>
             <ul>
               <li>Complex structure - high set-up and admin costs</li>
               <li>Must prioritise shareholder interests in decisions</li>
@@ -1696,7 +1727,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Minimises storage costs (efficiency)</li>
                 <li>Less capital tied up in stock — freed up for other uses (efficiency)</li>
@@ -1705,7 +1736,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Business becomes heavily dependent on suppliers — supply chain disruptions can cause production slowdowns or stops</li>
                 <li>Difficult to respond to sudden, unexpected increases in demand (insufficient materials on hand)</li>
@@ -1754,7 +1785,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Low quality products are likely to be detected before reaching the customer</li>
                 <li>Simple to establish and inexpensive</li>
@@ -1762,7 +1793,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Reactive — by the time a fault is discovered, the low quality product has already been made</li>
                 <li>Takes time to conduct regular checks</li>
@@ -1787,7 +1818,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>External standards prevent internal manipulation of results</li>
                 <li>Proactive — the goal is to avoid errors before they occur</li>
@@ -1795,7 +1826,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can be time-consuming</li>
                 <li>Costs money for certification, implementation, and audits</li>
@@ -1833,14 +1864,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>All staff and management share ownership and responsibility for quality</li>
                 <li>Every aspect of the business is continually assessed</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can be difficult to allocate responsibility for errors</li>
                 <li>Relies on all staff being motivated and highly skilled</li>
@@ -1899,7 +1930,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Low inventories - reduced storage costs and waste</li>
                 <li>Sale of produced units guaranteed (based on actual demand)</li>
@@ -1908,7 +1939,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Heavily dependent on suppliers - supply chain disruptions can halt production entirely</li>
               </ul>
@@ -1933,7 +1964,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Errors detected earlier - focus on one item improves quality</li>
                 <li>Increased speed - eliminates waiting time and unnecessary movement</li>
@@ -1941,7 +1972,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Expensive to reconfigure the production line</li>
                 <li>Employee motivation may decrease due to monotonous, repetitive tasks</li>
@@ -1971,13 +2002,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card disadv-card">
-              <div class="card-col-header">⚠ Slower than takt time</div>
+              <div class="card-col-header">Slower than takt time</div>
               <ul>
                 <li>Backlog occurs - customer demand cannot be met</li>
               </ul>
             </div>
             <div class="note-card adv-card">
-              <div class="card-col-header">⚠ Faster than takt time</div>
+              <div class="card-col-header">Faster than takt time</div>
               <ul>
                 <li>Staff and machinery underutilised</li>
                 <li>Producing more than needed causes overproduction</li>
@@ -2002,7 +2033,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Reduces cost and waste</li>
                 <li>Increases customer satisfaction - potentially improves sales and profit</li>
@@ -2010,7 +2041,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Unrealistic to expect zero defects entirely</li>
                 <li>Dedicating excessive resources to it can be a poor use of those resources</li>
@@ -2071,7 +2102,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li><strong>Lower costs</strong>: overseas manufacturing costs often cheaper → reduces prices, increases competitiveness and profit (efficiency + effectiveness)</li>
                 <li>Access to inputs <strong>not available locally</strong>: parts, machinery, equipment, world-class technology, specialised knowledge</li>
@@ -2079,7 +2110,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li><strong>Supply chain interruptions</strong>: inputs may not arrive as planned → slows or stops production; backup plans required</li>
                 <li><strong>Quality harder to monitor</strong>: if inputs don't meet standard, replacement takes longer due to shipping times</li>
@@ -2104,14 +2135,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li><strong>Lower costs</strong>: labour and production costs cheaper overseas, government regulations often less strict (= efficiency) → lower prices, greater competitiveness and profit (= effectiveness)</li>
                 <li>If products are sold overseas, manufacturing locally to that market can <strong>speed up delivery</strong></li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li><strong>Jobs lost</strong> domestically: impacts employees, families, and community; damages business reputation; customers may prefer locally made products</li>
                 <li>If outputs are sold back home: <strong>shipping costs, timing, and interruptions</strong> must be managed; shipping also has an environmental impact</li>
@@ -2141,7 +2172,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Tender process allows selection of the <strong>best available business</strong> at the best price</li>
                 <li>Outsourcing to specialists frees the business to <strong>focus on core activities</strong></li>
@@ -2149,7 +2180,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li><strong>Loss of control</strong> over the production process; sensitive business information must be shared with third parties</li>
                 <li><strong>Language and cultural barriers</strong> can cause issues</li>
@@ -2420,7 +2451,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Benefits for the Manager</div>
+              <div class="card-col-header">+ Benefits for the Manager</div>
               <ul>
                 <li>Time is freed up to focus on higher-level tasks</li>
                 <li>Reduced workload can lower stress</li>
@@ -2428,7 +2459,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✔ Benefits for the Employee</div>
+              <div class="card-col-header">+ Benefits for the Employee</div>
               <ul>
                 <li>Given more responsibility and can develop skills and gain valuable experience</li>
                 <li>Enhances prospects for promotion</li>
@@ -2442,14 +2473,14 @@
             <h3><span class="card-icon">✅</span>Suitable vs Unsuitable Tasks for Delegation</h3>
             <div class="adv-disadv-grid" style="margin-top:0.5rem;">
               <div class="note-card adv-card" style="margin:0;">
-                <div class="card-col-header">✔ Suitable</div>
+                <div class="card-col-header">+ Suitable</div>
                 <ul>
                   <li>Routine, repetitive, or time-consuming tasks</li>
                   <li>Tasks good for training and developing subordinates</li>
                 </ul>
               </div>
               <div class="note-card disadv-card" style="margin:0;">
-                <div class="card-col-header">✘ Unsuitable</div>
+                <div class="card-col-header">− Unsuitable</div>
                 <ul>
                   <li>High risk, high cost, or crisis-related tasks</li>
                   <li>Confidential or strategically important tasks</li>
@@ -2731,14 +2762,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li><strong>Direct and clear communication</strong> — all communication from one source (the manager) ensures consistency in strategy and decision-making; little chance of misunderstandings or inconsistencies</li>
                 <li><strong>Fast</strong> — decisions made quickly as only one person is responsible</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li><strong>Lack of employee input</strong> — creates low satisfaction and morale; employees frustrated their ideas are not heard; leads to a poor manager-staff relationship</li>
                 <li>Ignores <strong>valuable insights</strong> workers have into business operations</li>
@@ -2773,7 +2804,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li><strong>Direct and clear communication</strong> — from one source; ensures consistency; little misunderstanding</li>
                 <li><strong>Fast</strong> — only one person makes decisions</li>
@@ -2781,7 +2812,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li><strong>Lack of employee input</strong> — low satisfaction and morale; employees frustrated; poor relationship</li>
                 <li>Ignores <strong>valuable insights</strong> from workers</li>
@@ -2816,7 +2847,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Employees' ideas are heard and may improve the decision-making process</li>
                 <li>Opportunity to explore a greater <strong>variety of ideas</strong></li>
@@ -2824,7 +2855,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>More <strong>time-consuming</strong> than autocratic or persuasive — consulting adds time before deciding</li>
                 <li><strong>Resentment</strong> possible if employees' ideas are not implemented</li>
@@ -2862,7 +2893,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li><strong>Strong relationships</strong> form between manager and employees, with a high level of trust in employees' abilities</li>
                 <li>There is a <strong>larger pool of ideas</strong></li>
@@ -2872,7 +2903,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>More <strong>time-consuming</strong> than consultative — reaching agreement takes longer than just taking ideas into account</li>
                 <li>Manager's <strong>role can be undermined</strong> if they are not involved in decision-making in a specific area</li>
@@ -2912,7 +2943,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>A sense of <strong>ownership</strong> and increases in <strong>motivation</strong> and <strong>job satisfaction</strong> are possible</li>
                 <li>Encourages <strong>creativity and innovation</strong></li>
@@ -2920,7 +2951,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li><strong>Loss of control</strong> by management over the decision-making process</li>
                 <li>Employees may feel lost due to <strong>lack of guidance</strong></li>
@@ -2981,7 +3012,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">🏢 Official Corporate Culture</div>
+              <div class="card-col-header">Official Corporate Culture</div>
               <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:0.5rem;">The <strong>desired</strong> culture the business wants to have. Observed in:</p>
               <ul>
                 <li>Mission statement</li>
@@ -2992,7 +3023,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">👥 Real Corporate Culture</div>
+              <div class="card-col-header">Real Corporate Culture</div>
               <p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:0.5rem;">The <strong>actual</strong> culture that exists within the business. Observed in:</p>
               <ul>
                 <li>Actual behaviour</li>
@@ -3300,14 +3331,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Provides minimum conditions and pay rates across an entire industry or occupation — transparency and security for employees; rates cannot be reduced by the employer</li>
                 <li>Time-efficient — no negotiation is necessary</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Less flexibility to cater for the specific requirements of individual workplaces and employees</li>
               </ul>
@@ -3355,7 +3386,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Greater flexibility — workplace-specific matters can be catered for</li>
                 <li>Easier to link wage growth with productivity increases</li>
@@ -3364,7 +3395,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Time consuming to negotiate and go through the FWC approval process</li>
                 <li>Generally more expensive for employers — must pass the better off overall test</li>
@@ -3445,7 +3476,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>The parties themselves come to the agreement — increases satisfaction with and acceptance of the decision</li>
                 <li>Requires parties to work together, which can lead to an improvement of their relationship</li>
@@ -3453,7 +3484,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>No formal rules — if one party is more aggressive, they can advance their interests further at the expense of the other</li>
                 <li>Time consuming and expensive, with no requirement for a solution at the end (can conclude without an agreement)</li>
@@ -3479,7 +3510,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Always ends with a final, legally binding decision</li>
                 <li>Less formal, less expensive, and faster than a courtroom hearing or trial</li>
@@ -3487,7 +3518,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>More formal than mediation</li>
                 <li>Transfer of decision-making authority to the arbitrator — possible loss of control over the outcome</li>
@@ -3510,8 +3541,8 @@
                 <thead>
                   <tr>
                     <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid var(--border); color:var(--text-primary); background:var(--card-bg); border-right:1px solid var(--border); width:28%;"></th>
-                    <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid var(--border); color:var(--accent); background:var(--card-bg); border-right:1px solid var(--border);">🕊️ Mediation</th>
-                    <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid var(--border); color:var(--accent); background:var(--card-bg);">⚖️ Arbitration</th>
+                    <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid var(--border); color:var(--accent); background:var(--card-bg); border-right:1px solid var(--border);">Mediation</th>
+                    <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid var(--border); color:var(--accent); background:var(--card-bg);">Arbitration</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -3654,14 +3685,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Easily understood and applied; gives managers an understanding of how employees are motivated so they can create workplaces that satisfy those needs</li>
                 <li>Holistic approach — considers physical, financial, emotional, social, and intellectual aspects of motivation</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Assumes everyone is motivated in the prescribed hierarchical order (e.g. how would artists fit?)</li>
                 <li>No evidence that a need ceases to be a motivator once fulfilled (e.g. someone seeking challenge still wants a safe environment)</li>
@@ -3730,7 +3761,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Simple and cost effective to implement</li>
                 <li>Easy for both managers and employees to understand</li>
@@ -3740,7 +3771,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Time consuming to negotiate goals with each employee in a large business</li>
                 <li>Providing ongoing feedback requires careful, accurate, and detailed monitoring — also time consuming and potentially difficult to achieve</li>
@@ -3814,14 +3845,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Any of the four drives can be used to motivate employees at any time — no specific order is required</li>
                 <li>A manager can identify which drives are dominant for specific employees and target those</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Businesses need to provide opportunities to meet all four drives; if one or more are not met, employee motivation might decrease</li>
                 <li>Can be time consuming to identify the dominant drives for each individual employee</li>
@@ -3883,7 +3914,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Top performers can be attracted and retained by businesses that recognise and reward performance</li>
                 <li>Can increase productivity levels</li>
@@ -3893,7 +3924,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can encourage wrong behaviour — employees focus excessively on reward-gaining (e.g. short-term gains over long-term, individual effort over teamwork, quantity over quality, unethical behaviour)</li>
                 <li>Money is not the only motivator; strategy does not account for different types of people</li>
@@ -3926,14 +3957,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Providing opportunities for career advancement can prevent talented workers from looking or being driven elsewhere</li>
                 <li>Opportunities for career advancement attract talented employees to the business</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Employees who are overlooked for career advancement may feel de-motivated</li>
                 <li>Employees may be promoted beyond their level of capability</li>
@@ -3966,7 +3997,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Increases productivity — employees perform job tasks better</li>
                 <li>Contributes to a positive corporate culture</li>
@@ -3978,7 +4009,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can be expensive</li>
                 <li>De-motivating if employees are not given opportunities to use their new skills</li>
@@ -4012,7 +4043,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Low-cost strategy to increase motivation</li>
                 <li>Contributes to a positive corporate culture where employees feel valued</li>
@@ -4020,7 +4051,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>The manager might not know about an employee's problems, making it difficult to offer and provide support</li>
                 <li>Requires good interpersonal and communication skills from the manager, which might be lacking</li>
@@ -4051,14 +4082,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>A disciplinary policy provides a formal framework outlining steps to deal with unacceptable behaviour or unsatisfactory performance</li>
                 <li>Can motivate employees who respond well to discipline</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Only impacts motivation in the short term</li>
                 <li>Employees may resent sanctions, causing their work performance to actually worsen</li>
@@ -4107,7 +4138,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Performed directly in the context of the job — effective because it involves learning by experience, free from artificial classroom situations</li>
                 <li>Usually less expensive than off-the-job training, as it uses the actual workplace and other employees</li>
@@ -4116,7 +4147,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>The trainer may not be experienced enough to train others</li>
                 <li>As it is often informal, the training may not be systematically organised</li>
@@ -4145,7 +4176,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Trainers are suitably experienced and qualified</li>
                 <li>Employees can access the latest information and technology</li>
@@ -4155,7 +4186,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Not always directly within the context of the job — often formal and more artificial in nature</li>
                 <li>Can be expensive — extra costs such as payments to training organisations; staff jobs may need to be covered by others, adding to costs</li>
@@ -4294,7 +4325,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Satisfactory Performance</div>
+              <div class="card-col-header">+ Satisfactory Performance</div>
               <ul>
                 <li>Promotion</li>
                 <li>Pay rise</li>
@@ -4302,7 +4333,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Unsatisfactory Performance</div>
+              <div class="card-col-header">− Unsatisfactory Performance</div>
               <ul>
                 <li>Demotion</li>
                 <li>Dismissal (being fired)</li>
@@ -4701,7 +4732,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">🏭 Manufacturing</div>
+              <div class="card-col-header">Manufacturing</div>
               <ul>
                 <li>Tangible (physical) outputs</li>
                 <li>Can be stored and sold later</li>
@@ -4711,7 +4742,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">🤲 Services</div>
+              <div class="card-col-header">Services</div>
               <ul>
                 <li>Intangible (non-physical) outputs</li>
                 <li>Cannot be stored and sold later</li>
@@ -4871,7 +4902,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>High production rate, reduced production times</li>
                 <li>Lower labour costs — less direct labour required</li>
@@ -4882,7 +4913,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>High initial set-up costs; ongoing maintenance costs</li>
                 <li>Layout is relatively hard to change once built</li>
@@ -4911,7 +4942,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Speeds up the manufacturing process</li>
                 <li>Increases accuracy, reduces errors</li>
@@ -4920,7 +4951,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Costly to set up (hardware, software, training)</li>
                 <li>Requires specialised knowledge and skills</li>
@@ -4948,7 +4979,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Speeds up product design — faster to draw and modify than manual methods</li>
                 <li>Increases accuracy, reduces errors</li>
@@ -4958,7 +4989,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Costly to set up (hardware, software, training)</li>
                 <li>Computers are prone to breakdowns, viruses, and security breaches</li>
@@ -4988,7 +5019,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Speeds up manufacturing, reducing unit costs</li>
                 <li>High accuracy — less wastage, all products identical</li>
@@ -4996,7 +5027,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>High initial set-up costs, including employee training</li>
                 <li>Ongoing cost of staying up to date with new hardware and software</li>
@@ -5029,7 +5060,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Drives innovation — uncovers opportunities for new products, services, and business growth</li>
                 <li>Boosts efficiency through process automation</li>
@@ -5040,7 +5071,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Data trustworthiness concerns — individual rights at risk if data is lost, stolen, or misused</li>
                 <li>Replaces human workers, removing jobs from employees who may lack the skills to keep pace</li>
@@ -5084,7 +5115,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Increased speed of delivery</li>
                 <li>Greater convenience to customers — services and bookings available online</li>
@@ -5093,7 +5124,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Initial cost of establishing a website can be expensive</li>
                 <li>Ongoing maintenance costs — particularly to ensure adequate security of customer data</li>
@@ -5233,7 +5264,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Businesses that pursue this approach are generally more successful than those that do not</li>
                 <li>Allows the business to gain and maintain a competitive advantage</li>
@@ -5242,7 +5273,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Requires ongoing investment into research and preparation for possible (and uncertain) future scenarios</li>
               </ul>
@@ -5271,14 +5302,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Easier to identify the required change — the problem or pressure is already visible</li>
                 <li>Imitating competitors allows the business to copy only the strategies that have proven successful</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Risk of being too late to respond, especially in today's highly competitive markets where staying ahead is critical</li>
                 <li>Businesses are often unprepared, forcing changes in a limited time and resulting in rushed and potentially incorrect decisions</li>
@@ -5901,7 +5932,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Attracts price-conscious customers</li>
                 <li>Efficiency emphasis helps withstand price competition from rivals</li>
@@ -5909,7 +5940,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Risk of damaging price wars with competitors</li>
                 <li>Lower cost focus can decrease product quality - lower sales, more complaints</li>
@@ -5955,7 +5986,7 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Ability to obtain premium prices from customers</li>
                 <li>Creates buyer loyalty - loyal customers are not price sensitive and unlikely to switch</li>
@@ -5963,7 +5994,7 @@
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Often involves higher costs</li>
                 <li>Possible imitation by competitors - forces constant reinvention</li>
@@ -6867,13 +6898,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Positive effect</div>
+              <div class="card-col-header">+ Positive effect</div>
               <ul>
                 <li>Improved financial performance leads to a higher return on investment, e.g. increase in share price</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Negative effect</div>
+              <div class="card-col-header">− Negative effect</div>
               <ul>
                 <li>If a business ultimately fails: sole traders/partners lose their business; shareholders lose the value of their shares</li>
                 <li>Shareholders might not agree with a change (e.g. doesn't align with their values) and could decide to sell their shares</li>
@@ -6898,14 +6929,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Positive effect</div>
+              <div class="card-col-header">+ Positive effect</div>
               <ul>
                 <li>May receive performance-related pay (e.g. a bonus) when a change is successful</li>
                 <li>Opportunities for career advancement and increased responsibility, e.g. during a restructure or expansion</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Negative effect</div>
+              <div class="card-col-header">− Negative effect</div>
               <ul>
                 <li>Stress from dealing with negative effects on other stakeholders (e.g. communicating redundancy) and resistance to change</li>
                 <li>Stress/anxiety when a change proves more difficult than expected, or is failing</li>
@@ -6930,14 +6961,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Positive effect</div>
+              <div class="card-col-header">+ Positive effect</div>
               <ul>
                 <li>Change might lead to career advancement and/or the chance to learn new skills and knowledge</li>
                 <li>If initiated by, or in consultation with, employees - usually perceived positively, increasing motivation and commitment</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Negative effect</div>
+              <div class="card-col-header">− Negative effect</div>
               <ul>
                 <li>Positions might change, requiring different tasks or new skills - can feel threatening if employees fear they can't meet the new requirements</li>
                 <li>Restructures may change working hours or workplace location, and can involve redundancy - affecting both financial situation and emotional wellbeing</li>
@@ -6964,13 +6995,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Positive effect</div>
+              <div class="card-col-header">+ Positive effect</div>
               <ul>
                 <li>Often benefit through better quality, lower prices, and products/services that better meet their needs</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Negative effect</div>
+              <div class="card-col-header">− Negative effect</div>
               <ul>
                 <li>Prices might increase, or products/services might change in a way customers don't support</li>
               </ul>
@@ -6996,13 +7027,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Positive effect</div>
+              <div class="card-col-header">+ Positive effect</div>
               <ul>
                 <li>Might benefit from increased demand if a business change increases the amount of inputs required</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Negative effect</div>
+              <div class="card-col-header">− Negative effect</div>
               <ul>
                 <li>If a change decreases the amount of inputs required, supplier sales would reduce</li>
                 <li>If a business changes to a different supplier, the original supplier loses that customer and its sales</li>
@@ -7027,14 +7058,14 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Positive effect</div>
+              <div class="card-col-header">+ Positive effect</div>
               <ul>
                 <li>Possible when businesses expand or move into new locations - creates job opportunities and attracts other businesses to the area</li>
                 <li>Might increase foot traffic, which other local businesses can benefit from</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Negative effect</div>
+              <div class="card-col-header">− Negative effect</div>
               <ul>
                 <li>When businesses cease manufacturing or close offices, local communities suffer - employees lose income and reduce spending, causing a flow-on decrease in sales for other local businesses (e.g. restaurants, retail)</li>
                 <li>Especially devastating in smaller towns, when a major employer leaves</li>
@@ -7174,13 +7205,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Cost effective, as it can be integrated into communication channels the manager already uses</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can be time consuming when there are a lot of employees to communicate with</li>
               </ul>
@@ -7208,13 +7239,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Employees might come up with new and fresh ideas on the change and its implementation</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can cause conflict when there are differing ideas; including more people can also make decision-making more time consuming</li>
               </ul>
@@ -7240,13 +7271,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Employees feel valued; contributes to a strong, positive corporate culture</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Can be time consuming and expensive to implement</li>
               </ul>
@@ -7270,13 +7301,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Employees have a positive association with the change and feel valued</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>Employees might support the change only because they're given something in return, without actually believing in it; can also be expensive to implement</li>
               </ul>
@@ -7302,13 +7333,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Useful when other tactics won't work, are too expensive, or take too long - can be a relatively quick and inexpensive solution to resistance</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>If employees discover they've been manipulated, they might resist the change - can damage the manager-employee relationship and negatively impact corporate culture</li>
               </ul>
@@ -7334,13 +7365,13 @@
 
           <div class="adv-disadv-grid">
             <div class="note-card adv-card">
-              <div class="card-col-header">✔ Advantages</div>
+              <div class="card-col-header">+ Advantages</div>
               <ul>
                 <li>Can lead to the desired behaviour quickly, as employees fear the consequences of the threat</li>
               </ul>
             </div>
             <div class="note-card disadv-card">
-              <div class="card-col-header">✘ Disadvantages</div>
+              <div class="card-col-header">− Disadvantages</div>
               <ul>
                 <li>People may appear compliant but are actually resentful - can increase resistance, possibly leading to industrial sabotage, grievance complaints, stress/harassment compensation claims, and industrial disputes</li>
                 <li>May be used when a speedy response is required, but relying on it as a "quick fix" may obstruct future changes</li>
@@ -7798,14 +7829,18 @@
             const colHeader = card.querySelector('.card-col-header');
             let cardTitle;
             if (h3) {
-              cardTitle = h3.textContent.trim();
+              const h3Text = h3.cloneNode(true);
+              h3Text.querySelectorAll('.card-icon').forEach(el => el.remove());
+              cardTitle = h3Text.textContent.trim();
             } else if (colHeader) {
-              cardTitle = `${mainTitle} — ${colHeader.textContent.trim().replace(/^[✔✘]\s*/, '')}`;
+              cardTitle = `${mainTitle} — ${colHeader.textContent.trim().replace(/^[+−✔✘⚠]\s*/, '')}`;
             } else {
               cardTitle = mainTitle;
             }
 
-            const text = card.textContent.replace(/\s+/g, ' ').trim();
+            const cardText = card.cloneNode(true);
+            cardText.querySelectorAll('.card-icon').forEach(el => el.remove());
+            const text = cardText.textContent.replace(/\s+/g, ' ').trim();
             const searchId = String(index.length);
             card.dataset.searchId = searchId;
 
