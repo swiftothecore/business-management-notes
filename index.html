@@ -7826,8 +7826,16 @@
           const tabBtn = lessonGroup.querySelector(`.topic-tab[data-topic="${CSS.escape(topicKey)}"]`);
           const topicLabel = tabBtn ? tabBtn.textContent.trim() : '';
 
+          // Card icons are hidden in CSS but still live in the DOM, so they
+          // would otherwise leak into search titles and snippets.
+          const textWithoutIcons = el => {
+            const clone = el.cloneNode(true);
+            clone.querySelectorAll('.card-icon').forEach(n => n.remove());
+            return clone.textContent.trim();
+          };
+
           const mainH3 = panel.querySelector('h3');
-          const mainTitle = mainH3 ? mainH3.textContent.trim() : topicLabel;
+          const mainTitle = mainH3 ? textWithoutIcons(mainH3) : topicLabel;
 
           const breadcrumb = `Week ${weekNum} · L${lessonNum} ${lessonTitle}`;
 
@@ -7836,18 +7844,14 @@
             const colHeader = card.querySelector('.card-col-header');
             let cardTitle;
             if (h3) {
-              const h3Text = h3.cloneNode(true);
-              h3Text.querySelectorAll('.card-icon').forEach(el => el.remove());
-              cardTitle = h3Text.textContent.trim();
+              cardTitle = textWithoutIcons(h3);
             } else if (colHeader) {
               cardTitle = `${mainTitle} — ${colHeader.textContent.trim().replace(/^[+−✔✘⚠]\s*/, '')}`;
             } else {
               cardTitle = mainTitle;
             }
 
-            const cardText = card.cloneNode(true);
-            cardText.querySelectorAll('.card-icon').forEach(el => el.remove());
-            const text = cardText.textContent.replace(/\s+/g, ' ').trim();
+            const text = textWithoutIcons(card).replace(/\s+/g, ' ').trim();
             const searchId = String(index.length);
             card.dataset.searchId = searchId;
 
