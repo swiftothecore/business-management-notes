@@ -209,12 +209,12 @@
        NOTE CARDS — compact, dark, low-radius
        ============================================================ */
     .note-card {
-      background: transparent;
-      border: none;
-      border-top: 1px solid var(--border);
-      border-radius: 0;
-      padding: 16px 0 4px;
-      margin-bottom: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--accent-deep);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 16px 20px 18px;
+      margin-bottom: 12px;
     }
 
     .note-card h3 {
@@ -306,16 +306,12 @@
     .adv-disadv-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
-
-    /* Hairline down the middle of the ledger */
-    .adv-disadv-grid .note-card.disadv-card { border-left: 1px solid var(--border); }
 
     @media (max-width: 700px) {
       .adv-disadv-grid { grid-template-columns: 1fr; }
-      .adv-disadv-grid .note-card.disadv-card { border-left: none; }
     }
 
     .adv-disadv-grid .note-card {
@@ -337,8 +333,8 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .adv-disadv-grid .note-card.adv-card    .card-col-header { color: var(--adv-color); }
-    .adv-disadv-grid .note-card.disadv-card .card-col-header { color: var(--disadv-color); }
+    .adv-disadv-grid .note-card.adv-card    .card-col-header { color: var(--adv-color);    background: var(--adv-bg); }
+    .adv-disadv-grid .note-card.disadv-card .card-col-header { color: var(--disadv-color); background: var(--disadv-bg); }
 
     .adv-disadv-grid .note-card ul { padding: 10px 14px 14px; }
     .adv-disadv-grid .note-card ul li { margin-bottom: 5px; }
@@ -710,6 +706,16 @@
     #search-results .search-meta,
     .search-result .result-breadcrumb {
       font-family: var(--font-mono);
+    }
+
+    /* Lora's `tnum` feature also widens its word space (+25%), so the
+       tabular figures inherited from `body` are switched off on the
+       display face. Nunito Sans is unaffected and keeps them. */
+    #sidebar-header h1,
+    .note-card h3,
+    .lesson-header h2,
+    .search-result .result-title {
+      font-variant-numeric: normal;
     }
 
     /* Claret rules for structural dividers */
